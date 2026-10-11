@@ -1,0 +1,528 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C0C16">
+<title>Invitación · Another World VR Arena</title>
+<meta name="description" content="Invitación para adultos (18+) · Another World VR Arena, Juárez">
+<meta property="og:title" content="¿Sobrevivirás a la fiesta? · Another World VR Arena">
+<meta property="og:description" content="Misión VR para mayores de 18 años en Another World VR Arena, Juárez.">
+<meta property="og:image" content="img/hero-16x9.webp">
+<!-- Imágenes y video: solo capturas/arte de juegos y logotipo oficial. Sin fotografías ni video de personas reales. -->
+<link rel="icon" type="image/png" href="img/aw-logo-sign.png">
+<link rel="preload" href="fonts/igra-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-code-pro-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DEL EVENTO — edita SOLO este bloque para cada invitación
+   Mismos campos y parámetros de URL que las otras plantillas, + "evento".
+   ===================================================================== */
+const CONFIG = {
+  evento:     "Cumpleaños",        // Cumpleaños · Despedida · Convivio · Reunión… (URL: ?evento=)
+  nombre:     "Ricardo",           // festejado/a o anfitrión(a)  (PLACEHOLDER)
+  edad:       "",                  // opcional: déjalo vacío para no mostrar edad
+  fecha:      "2026-11-21",        // AAAA-MM-DD
+  horaInicio: "20:00",             // HH:MM (24 h)
+  horaFin:    "22:00",             // HH:MM (24 h)
+  utcOffset:  "auto",              // "auto" = Cd. Juárez (MST -07:00 / MDT -06:00 con DST de EE. UU.); o fija p. ej. "-07:00"
+  whatsapp:   "5216560000000",     // PLACEHOLDER: número que recibe las confirmaciones (solo dígitos, con lada país)
+  mensaje:    "¡Hola! Acepto la misión: confirmo asistencia — {evento} de {nombre} en Another World VR Arena, el {fecha} ({hora}). Somos __ personas.",
+  lugar:      "Another World VR Arena",
+  direccion:  "Av. Ejército Nacional 5230, Local 9, Juárez, Chih.",
+  // nivel = intensidad orientativa 1–5 (ver README)
+  misiones: [
+    { titulo: "Safe Night", genero: "Supervivencia zombi · Cooperativo", nivel: 5, img: "img/m-safe-night.webp",
+      desc: "Un mundo post-apocalíptico tras una guerra nuclear. Enfrenta oleadas de zombis, reúne recursos y haz lo que sea para seguir con vida. ¿Quién de tu equipo sobrevivirá la noche?" },
+    { titulo: "Kernel: Survival", genero: "Horror · Quest cooperativo", nivel: 5, img: "img/m-kernel-survival.webp",
+      desc: "Avanza piso por piso por una fábrica infestada resolviendo acertijos —hackeo de códigos, un brazo manipulador— hasta la azotea para pedir evacuación y escapar del apocalipsis zombi." },
+    { titulo: "Colony: Code Red", genero: "Sci-fi · Mutantes · 30 min", nivel: 4, img: "img/m-colony.webp",
+      desc: "Año 2508. Eres la tripulación de la nave Vega rumbo al planeta Alekta, donde la colonia adaptaba ADN terrestre con mutaciones persistentes. ¿Qué podría salir mal?" },
+    { titulo: "Kernel: Bunker", genero: "Shooter hiperrealista · PvP", nivel: 4, img: "img/m-kernel-bunker.webp",
+      desc: "Dos equipos en un búnker abandonado donde un misterioso sol negro altera las leyes de la física. Armas realistas y fenómenos paranormales." },
+    { titulo: "Kernel: Raven", genero: "Shooter hiperrealista · PvP", nivel: 4, img: "img/m-kernel-raven.webp",
+      desc: "Equipos rivales en la obra del rascacielos de la corporación Another World: alturas vertiginosas, un mapa extenso, escondites y táctica pura." },
+    { titulo: "Shmooter: Space Battle 2", genero: "Shooter PvP · Arcade", nivel: 3, img: "img/m-shmooter-space2.webp",
+      desc: "Batalla en una estación espacial: todos contra todos o equipo contra equipo, arma nueva y teletransportadores entre pisos. Trata de no salir volando al espacio." }
+  ]
+};
+</script>
+<style>
+@font-face{font-family:"Igra Sans";src:url(fonts/igra-sans.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Jura";src:url(fonts/jura-bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-600.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --black:#0C0C16; --black2:#11111D; --panel:#141422; --line:rgba(255,255,255,.09);
+  --red:#EA0046; --red2:#F80C4F; --blue:#0062BA; --neon:#246FFF; --neon2:#249AFF; --white:#FFFFFF; --mute:#A9ADBD; --dim:#6E7286;
+  --h:"Igra Sans",system-ui,sans-serif; --s:"Jura",system-ui,sans-serif; --b:"Source Code Pro",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--black);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--black);color:var(--white);font:400 14px/1.7 var(--b);letter-spacing:-.03em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img,video{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* ---------- barra superior: logo oficial sobre fondo sólido ---------- */
+.top{position:relative;z-index:5;background:var(--black);border-bottom:1px solid rgba(234,0,70,.35)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:18px 0}
+.top .logo{width:150px;height:auto}
+.badge18{display:flex;align-items:center;gap:8px;font:600 11px/1 var(--b);letter-spacing:.06em;text-transform:uppercase;color:var(--mute)}
+.badge18 b{display:grid;place-items:center;width:38px;height:38px;border:2px solid var(--red);border-radius:50%;color:var(--white);font:400 14px/1 var(--h);letter-spacing:0}
+
+/* ---------- hero ---------- */
+.hero{position:relative;min-height:calc(100svh - 75px);max-height:980px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden;isolation:isolate;background:#05050a}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-4;filter:saturate(.75) contrast(1.08) brightness(.8)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-3;
+  background:linear-gradient(180deg,rgba(12,12,22,.65) 0%,rgba(12,12,22,0) 26%,rgba(12,12,22,.2) 50%,rgba(12,12,22,.92) 80%,var(--black) 100%),
+             radial-gradient(120% 80% at 50% 40%,transparent 40%,rgba(5,5,10,.75) 100%)}
+.scan{position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:.35;mix-blend-mode:overlay;
+  background:repeating-linear-gradient(0deg,rgba(0,0,0,.55) 0 1px,transparent 1px 3px)}
+.alarm{position:absolute;inset:-10% -10% auto auto;width:90%;height:70%;z-index:-2;pointer-events:none;mix-blend-mode:screen;
+  background:radial-gradient(closest-side,rgba(234,0,70,.42),rgba(234,0,70,.12) 55%,transparent);opacity:.55;animation:alarm 7s steps(1,end) infinite}
+@keyframes alarm{0%{opacity:.55}6%{opacity:.18}7%{opacity:.6}9%{opacity:.25}10%{opacity:.55}48%{opacity:.5}50%{opacity:.2}51%{opacity:.55}100%{opacity:.55}}
+.fog{position:absolute;left:-30%;right:-30%;bottom:-8%;height:55%;z-index:-2;pointer-events:none;opacity:.45;filter:blur(28px);
+  background:radial-gradient(40% 50% at 20% 70%,rgba(160,170,200,.28),transparent 70%),radial-gradient(35% 45% at 60% 80%,rgba(140,150,190,.22),transparent 70%),radial-gradient(30% 40% at 90% 65%,rgba(150,160,200,.2),transparent 70%);
+  animation:fog 26s ease-in-out infinite alternate}
+.fog.f2{bottom:10%;height:40%;opacity:.25;animation-duration:34s;animation-direction:alternate-reverse}
+@keyframes fog{from{transform:translate3d(-6%,0,0)}to{transform:translate3d(6%,-3%,0)}}
+/* HUD */
+.hud{position:absolute;inset:14px;z-index:-1;pointer-events:none;font:600 10px/1 var(--b);letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.hud i{position:absolute;width:22px;height:22px;border:1.5px solid rgba(255,255,255,.55)}
+.hud i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}.hud i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.hud i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}.hud i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
+.hud .tl{position:absolute;top:8px;left:32px;display:flex;align-items:center;gap:8px}
+.hud .tr{position:absolute;top:8px;right:32px;text-align:right}
+.rec{width:8px;height:8px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.6s steps(1,end) infinite}
+@keyframes blink{50%{opacity:.15}}
+.hud .ret{position:absolute;left:50%;top:42%;width:64px;height:64px;transform:translate(-50%,-50%);opacity:.35}
+.hud .ret::before,.hud .ret::after{content:"";position:absolute;background:rgba(255,255,255,.8)}
+.hud .ret::before{left:50%;top:0;bottom:0;width:1px;-webkit-mask:linear-gradient(#000 0 38%,transparent 38% 62%,#000 62%);mask:linear-gradient(#000 0 38%,transparent 38% 62%,#000 62%)}
+.hud .ret::after{top:50%;left:0;right:0;height:1px;-webkit-mask:linear-gradient(90deg,#000 0 38%,transparent 38% 62%,#000 62%);mask:linear-gradient(90deg,#000 0 38%,transparent 38% 62%,#000 62%)}
+.hero .in{padding:0 0 30px;position:relative}
+.kick{display:inline-flex;align-items:center;gap:10px;font:600 11px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--white);background:var(--red);padding:8px 12px 8px 10px;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.kick .rec{background:#fff;box-shadow:none;width:7px;height:7px}
+.evt{margin-top:16px;font:700 18px/1.2 var(--s);letter-spacing:.02em;color:var(--mute)}
+.evt span{color:var(--white)}
+h1{margin-top:8px;font:400 clamp(30px,8.6vw,74px)/1.08 var(--h);letter-spacing:-.02em;text-wrap:balance}
+h1 .q{display:block;color:var(--white)}
+h1 .nm{display:block;position:relative;color:var(--red);font-size:1.42em;line-height:1.02;margin-top:4px;word-break:break-word;text-shadow:0 0 28px rgba(234,0,70,.35)}
+.glitch{position:relative;display:inline-block}
+.glitch::before,.glitch::after{content:attr(data-t);position:absolute;inset:0;pointer-events:none;opacity:0}
+.glitch::before{color:var(--neon2);transform:translate(-3px,0);clip-path:inset(18% 0 58% 0)}
+.glitch::after{color:#fff;transform:translate(3px,0);clip-path:inset(62% 0 12% 0)}
+.glitch.on::before{animation:gl1 .42s steps(2,end) 1}.glitch.on::after{animation:gl2 .42s steps(2,end) 1}
+@keyframes gl1{0%{opacity:.9;clip-path:inset(10% 0 70% 0);transform:translate(-4px,0)}35%{clip-path:inset(55% 0 20% 0);transform:translate(3px,0)}70%{clip-path:inset(30% 0 50% 0);transform:translate(-2px,0)}100%{opacity:0}}
+@keyframes gl2{0%{opacity:.8;clip-path:inset(70% 0 8% 0);transform:translate(4px,0)}40%{clip-path:inset(20% 0 64% 0);transform:translate(-3px,0)}100%{opacity:0}}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.18);background:rgba(12,12,22,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font:600 12.5px/1.2 var(--b);letter-spacing:.01em}
+.chip em{font-style:normal;color:var(--red);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.chip.age[hidden]{display:none}
+.cta{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;font:600 13px/1 var(--b);letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .25s,background .25s,border-color .25s;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.red{background:var(--red);color:#fff}
+.btn.red:hover{background:var(--red2);box-shadow:0 0 0 1px var(--red2),0 0 26px rgba(248,12,79,.45)}
+.btn.ghost{background:rgba(12,12,22,.55);color:#fff;border-color:rgba(255,255,255,.28)}
+.btn.ghost:hover{border-color:var(--neon2);box-shadow:inset 0 0 0 1px var(--neon2),0 0 22px rgba(36,111,255,.35)}
+.btn.blue{background:transparent;color:#fff;border-color:var(--neon)}
+.btn.blue:hover{box-shadow:inset 0 0 0 1px var(--neon2),0 0 22px rgba(36,111,255,.4)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:2px solid var(--neon2);outline-offset:3px}
+.threat{margin-top:26px;display:flex;align-items:center;gap:12px;font:600 10px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--mute)}
+.threat .bars{display:flex;gap:3px}
+.threat .bars s{width:16px;height:6px;background:rgba(255,255,255,.14);transform:skewX(-20deg)}
+.threat .bars s.on{background:var(--red)}
+.threat b{color:var(--red);font-weight:600}
+
+/* franja 18+ */
+.warn{position:relative;background:var(--black2);border-block:1px solid rgba(234,0,70,.45);overflow:hidden}
+.warn::before,.warn::after{content:"";position:absolute;top:0;bottom:0;width:18px;background:repeating-linear-gradient(135deg,var(--red) 0 6px,transparent 6px 12px);opacity:.85}
+.warn::before{left:0}.warn::after{right:0}
+.warn .wrap{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:6px 18px;padding:14px 22px;text-align:center;font:600 11.5px/1.45 var(--b);letter-spacing:.05em;text-transform:uppercase}
+.warn strong{color:var(--red);font-weight:600}
+.warn .sep{width:5px;height:5px;background:var(--red);transform:rotate(45deg)}
+
+/* secciones */
+section{position:relative;padding:72px 0}
+.lbl{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--b);letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.lbl::after{content:"";height:1px;flex:1;max-width:120px;background:linear-gradient(90deg,var(--red),transparent)}
+h2{margin-top:14px;font:400 clamp(28px,7vw,52px)/1.12 var(--h);letter-spacing:-.02em;text-wrap:balance}
+.lead{margin-top:12px;color:var(--mute);max-width:56ch;font-size:14.5px}
+
+/* cuenta regresiva */
+.count-sec{padding:56px 0 18px;text-align:center}
+.count-sec .lbl{justify-content:center}.count-sec .lbl::before{content:"";height:1px;flex:1;max-width:120px;background:linear-gradient(270deg,var(--red),transparent)}
+.count{margin:22px auto 0;display:grid;grid-template-columns:repeat(4,1fr);max-width:640px;border:1px solid var(--line);background:linear-gradient(180deg,#121220,#0d0d18)}
+.count div{position:relative;padding:18px 4px 14px}
+.count div+div{border-left:1px solid var(--line)}
+.count b{display:block;font:400 clamp(34px,10vw,64px)/1 var(--h);color:#fff;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.count div:last-child b{color:var(--red)}
+.count span{display:block;margin-top:8px;font:600 10px/1 var(--b);letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.count.done{display:block;padding:22px;font:400 24px/1.2 var(--h);color:var(--red)}
+.count-note{margin-top:14px;font-size:12px;color:var(--dim);letter-spacing:.04em}
+
+/* briefing / expediente */
+.dossier{margin-top:30px;position:relative;border:1px solid var(--line);background:linear-gradient(180deg,rgba(20,20,34,.92),rgba(12,12,22,.96));padding:24px 20px}
+.dossier::before{content:"";position:absolute;left:-1px;top:-1px;width:56px;height:3px;background:var(--red)}
+.dossier .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:16px;border-bottom:1px dashed rgba(255,255,255,.14);font:600 10.5px/1.5 var(--b);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+#file{white-space:nowrap}
+.stamp{flex:none;border:2px solid var(--red);color:var(--red);padding:5px 9px;font:400 12px/1 var(--h);letter-spacing:.06em;transform:rotate(-4deg);opacity:.9}
+dl{display:grid;grid-template-columns:1fr;gap:0}
+dl>div{display:grid;grid-template-columns:110px 1fr;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+dl>div:last-child{border-bottom:0}
+dt{font:600 10.5px/1.6 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+dd{font:700 17px/1.4 var(--s);color:#fff;letter-spacing:.01em}
+dd small{display:block;margin-top:2px;font:400 13px/1.55 var(--b);color:var(--mute);letter-spacing:-.02em}
+dd .r{color:var(--red)}
+.dossier .acts{margin-top:18px;display:grid;grid-template-columns:1fr;gap:10px}
+
+/* misiones */
+.games{margin-top:30px;display:grid;grid-template-columns:1fr;gap:16px}
+.game{position:relative;background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:border-color .3s,transform .3s}
+.game:hover{border-color:rgba(234,0,70,.55)}
+.game .art{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.game .art img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform .8s ease}
+.game:hover .art img{transform:scale(1.04)}
+.game .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(20,20,34,.95)),repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 1px,transparent 1px 3px)}
+.game .n{position:absolute;z-index:1;top:12px;left:12px;font:600 10.5px/1 var(--b);letter-spacing:.16em;color:#fff;background:rgba(12,12,22,.8);border-left:2px solid var(--red);padding:6px 8px}
+.game .lvl{position:absolute;z-index:1;top:12px;right:12px;font:600 10px/1 var(--b);letter-spacing:.14em;text-transform:uppercase;padding:6px 8px;background:var(--red);color:#fff}
+.game .lvl.l3{background:var(--blue)}
+.game .body{padding:4px 18px 20px;margin-top:-26px;position:relative}
+.game h3{font:400 22px/1.15 var(--h);letter-spacing:-.01em}
+.game .g{margin-top:6px;font:700 13px/1.3 var(--s);color:var(--neon2);letter-spacing:.03em}
+.game .x{margin-top:10px;color:var(--mute);font-size:13.5px;line-height:1.65}
+.game .int{margin-top:14px;display:flex;align-items:center;gap:10px;font:600 10px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.game .int .bars{display:flex;gap:3px}
+.game .int s{width:14px;height:5px;background:rgba(255,255,255,.12);transform:skewX(-20deg)}
+.game .int s.on{background:var(--red)}
+.game.l3 .int s.on{background:var(--neon)}
+.obj{margin-top:28px;display:grid;gap:10px;max-width:440px}
+.obj div{border-bottom:0;display:flex;gap:14px;align-items:baseline;padding:12px 14px;border-left:2px solid var(--blue);background:linear-gradient(90deg,rgba(0,98,186,.14),transparent)}
+.obj div:first-child{border-color:var(--red);background:linear-gradient(90deg,rgba(234,0,70,.14),transparent)}
+.obj dt{flex:none;width:96px}
+.obj dd{font-size:15px}
+.fine{margin-top:18px;font-size:12px;color:var(--dim);max-width:70ch}
+
+/* protocolo */
+.proto{margin-top:30px;display:grid;grid-template-columns:1fr;gap:12px;counter-reset:p}
+.proto li{list-style:none;position:relative;display:grid;grid-template-columns:54px 1fr;gap:14px;align-items:start;padding:18px 18px 18px 14px;border:1px solid var(--line);background:rgba(20,20,34,.6)}
+.proto li::before{counter-increment:p;content:"0" counter(p);font:400 28px/1 var(--h);color:var(--red);padding-top:2px}
+.proto h3{font:700 17px/1.3 var(--s);letter-spacing:.01em}
+.proto p{margin-top:4px;color:var(--mute);font-size:13.5px}
+
+/* RSVP */
+.rsvp{overflow:hidden;isolation:isolate;padding:88px 0;border-top:1px solid rgba(234,0,70,.35)}
+.rsvp .bg{position:absolute;inset:0;z-index:-2;background:url(img/bg-bunker.webp) center/cover no-repeat;opacity:.5}
+.rsvp::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--black) 0%,rgba(12,12,22,.72) 35%,rgba(12,12,22,.82) 70%,var(--black) 100%),radial-gradient(60% 50% at 50% 50%,rgba(0,98,186,.18),transparent 70%)}
+.rsvp .wrap{text-align:center;display:flex;flex-direction:column;align-items:center}
+.rsvp .lbl{justify-content:center}.rsvp .lbl::before{content:"";height:1px;flex:1;max-width:120px;background:linear-gradient(270deg,var(--red),transparent)}
+.rsvp .lead{margin-inline:auto}
+.rsvp .acts{margin-top:28px;display:grid;gap:12px;width:100%;max-width:420px}
+.rsvp .btn.red{min-height:60px;font-size:14px}
+.rsvp .tip{margin-top:16px;font-size:12px;color:var(--dim)}
+.rsvp .tip code{white-space:nowrap;font:inherit;color:#fff;background:rgba(255,255,255,.08);padding:1px 6px}
+
+footer{border-top:1px solid var(--line);padding:36px 0 44px;text-align:center;color:var(--dim);font-size:12px;letter-spacing:.04em}
+footer img{width:84px;margin:0 auto 14px}
+footer p+p{margin-top:4px}
+
+/* revelado */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- escritorio ---------- */
+@media (min-width:760px){
+  .top .logo{width:180px}
+  .hero{min-height:min(100vh - 77px,900px)}
+  .hero .in{padding-bottom:56px}
+  .hud{inset:22px}
+  .hud .ret{top:40%;left:68%;width:84px;height:84px}
+  .evt{font-size:22px}
+  .meta{gap:10px}.chip{font-size:13.5px;padding:10px 14px}
+  .cta{gap:14px}.btn{min-height:54px}
+  .warn .wrap{font-size:12.5px;padding:16px 30px}
+  section{padding:104px 0}
+  .count-sec{padding:84px 0 24px}
+  .count div{padding:26px 8px 20px}
+  .brief-grid{display:grid;grid-template-columns:.85fr 1.15fr;gap:56px;align-items:start}
+  .brief-grid .dossier{margin-top:0}
+  .dossier{padding:30px 32px}
+  dl>div{grid-template-columns:150px 1fr;padding:16px 0}
+  dd{font-size:19px}
+  .dossier .acts{grid-template-columns:1fr 1fr}
+  .games{grid-template-columns:repeat(2,1fr);gap:20px}
+  .game .art{aspect-ratio:16/10}
+  .proto{grid-template-columns:repeat(3,1fr);gap:16px}
+  .proto li{grid-template-columns:1fr;gap:12px;padding:24px}
+  .rsvp{padding:120px 0}
+}
+@media (min-width:1080px){
+  .games{grid-template-columns:repeat(3,1fr)}
+  h1{font-size:64px}
+}
+@media (max-width:370px){
+  .top .logo{width:128px}.badge18 span{display:none}
+  .btn{padding:0 16px;font-size:12px}
+  dl>div{grid-template-columns:1fr;gap:4px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="img/aw-logo-horizontal-white.png" alt="Another World" width="1200" height="178">
+    <div class="badge18" aria-label="Solo mayores de 18 años"><span>Solo adultos</span><b>18+</b></div>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="ttl" style="padding:0">
+  <img class="poster" id="poster" src="img/hero-3x4.webp" alt="" aria-hidden="true">
+  <video id="hv" muted playsinline loop preload="none" aria-hidden="true" tabindex="-1"></video>
+  <div class="scan" aria-hidden="true"></div>
+  <div class="alarm" aria-hidden="true"></div>
+  <div class="fog" aria-hidden="true"></div><div class="fog f2" aria-hidden="true"></div>
+  <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i>
+    <div class="tl"><span class="rec"></span><span>REC · CAM-03</span></div>
+    <div class="tr"><span id="clock">--:--:--</span><br><span style="opacity:.6">SECTOR JRZ</span></div>
+    <div class="ret"></div>
+  </div>
+  <div class="wrap in">
+    <span class="kick"><span class="rec"></span>Alerta · Código rojo</span>
+    <p class="evt">Invitación · <span id="evento">Cumpleaños</span></p>
+    <h1 id="ttl"><span class="q">¿Sobrevivirás a la fiesta de</span><span class="nm"><span class="glitch" id="name" data-t="Ricardo?">Ricardo?</span></span></h1>
+    <div class="meta">
+      <span class="chip"><em>Día</em><span id="dateShort"></span></span>
+      <span class="chip"><em>Hora</em><span id="timeShort"></span></span>
+      <span class="chip age" id="ageChip" hidden><em>Edad</em><span id="age"></span></span>
+    </div>
+    <div class="cta">
+      <a class="btn red" href="#rsvp">Aceptar misión</a>
+      <a class="btn ghost" href="#briefing">Ver briefing</a>
+    </div>
+    <div class="threat" aria-hidden="true">Nivel de amenaza <span class="bars"><s class="on"></s><s class="on"></s><s class="on"></s><s class="on"></s><s></s></span><b>Alto</b></div>
+  </div>
+</section>
+
+<div class="warn" role="note">
+  <div class="wrap"><span><strong>18+</strong> Experiencia para mayores de 18 años</span><i class="sep" aria-hidden="true"></i><span>Contenido intenso: zombies y combate</span></div>
+</div>
+
+<main>
+  <section class="count-sec" aria-labelledby="ct">
+    <div class="wrap">
+      <p class="lbl rv" id="ct">Tiempo para el despliegue</p>
+      <div class="count rv" id="count" role="timer" aria-live="off">
+        <div><b id="cd-d">00</b><span>Días</span></div>
+        <div><b id="cd-h">00</b><span>Horas</span></div>
+        <div><b id="cd-m">00</b><span>Min</span></div>
+        <div><b id="cd-s">00</b><span>Seg</span></div>
+      </div>
+      <p class="count-note rv">Hora local de Cd. Juárez</p>
+    </div>
+  </section>
+
+  <section id="briefing" aria-labelledby="bt">
+    <div class="wrap brief-grid">
+      <div>
+        <p class="lbl rv">Briefing</p>
+        <h2 class="rv" id="bt">Orden de misión</h2>
+        <p class="lead rv">Te reclutaron para una noche en realidad virtual: equipo completo, libertad total de movimiento y un solo objetivo — salir con vida. Lee el expediente y confirma tu lugar.</p>
+        <dl class="obj rv">
+          <div><dt>Primario</dt><dd>Sobrevivir</dd></div>
+          <div><dt>Secundario</dt><dd id="obj2">Celebrar a Ricardo</dd></div>
+          <div><dt>Escuadra</dt><dd>Tú y los demás invitados</dd></div>
+        </dl>
+      </div>
+      <div class="dossier rv">
+        <div class="hd"><span>Expediente <span id="file">AW-000000</span><br>Acceso: invitados</span><span class="stamp">Confidencial</span></div>
+        <dl>
+          <div><dt>Operación</dt><dd><span id="op">Cumpleaños de Ricardo</span></dd></div>
+          <div><dt>Fecha</dt><dd><span id="date"></span></dd></div>
+          <div><dt>Ventana</dt><dd><span id="time"></span><small>Llega 15 minutos antes para el briefing y el equipo.</small></dd></div>
+          <div><dt>Punto de reunión</dt><dd><span id="place"></span><small id="addr"></small></dd></div>
+          <div><dt>Clasificación</dt><dd><span class="r">18+</span> · Contenido intenso<small>Zombies, horror y combate en VR.</small></dd></div>
+        </dl>
+        <div class="acts">
+          <a class="btn blue" id="maps" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Cómo llegar</a>
+          <button class="btn ghost" id="ics" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agregar al calendario</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section aria-labelledby="mt" style="padding-top:24px">
+    <div class="wrap">
+      <p class="lbl rv">Zonas de combate</p>
+      <h2 class="rv" id="mt">Elige tu pesadilla</h2>
+      <p class="lead rv">Misiones para jugadores sin miedo. La intensidad es orientativa: del shooter arcade al horror que te hará gritar.</p>
+      <div class="games" id="games"></div>
+      <p class="fine rv">Disponibilidad y elección final de misiones se confirman con la arena el día del evento.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="pt" style="padding-top:24px">
+    <div class="wrap">
+      <p class="lbl rv">Protocolo</p>
+      <h2 class="rv" id="pt">Instrucciones tácticas</h2>
+      <ol class="proto">
+        <li class="rv"><div><h3>Llega 15 minutos antes</h3><p>Registro, briefing de seguridad y ajuste del equipo antes de entrar a la arena.</p></div></li>
+        <li class="rv" style="--d:.08s"><div><h3>Calzado cerrado y ropa cómoda</h3><p>Te vas a mover, agachar y correr. Nada de sandalias ni tacones.</p></div></li>
+        <li class="rv" style="--d:.16s"><div><h3>Sigue al game master</h3><p>Escucha sus indicaciones dentro de la arena: ellos cuidan tu misión de principio a fin.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="rsvp" id="rsvp" aria-labelledby="rt">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="lbl rv">Confirmación</p>
+      <h2 class="rv" id="rt">¿Entras o te quedas fuera?</h2>
+      <p class="lead rv">Confirma por WhatsApp e indica cuántas personas van para reservar su lugar en la misión.</p>
+      <div class="acts rv">
+        <a class="btn red" id="rsvpBtn" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.6 2.5 4 3.5 1.5.6 2.1.7 2.8.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+          Confirmar por WhatsApp</a>
+      </div>
+      <p class="tip rv">El mensaje ya va escrito: solo completa <code>Somos __ personas</code>.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <img src="img/aw-logo-sign.png" alt="Another World" width="550" height="282" loading="lazy">
+  <p>Another World VR Arena · Juárez</p>
+  <p>Experiencia para mayores de 18 años</p>
+</footer>
+
+<script>
+(function(){
+  /* ---- 1. Config + parámetros de URL (mismos que las otras plantillas + evento) ---- */
+  const C = Object.assign({}, CONFIG);
+  const q = new URLSearchParams(location.search);
+  const map = {evento:"evento",nombre:"nombre",edad:"edad",fecha:"fecha",inicio:"horaInicio",fin:"horaFin",tz:"utcOffset",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
+  for (const [p,k] of Object.entries(map)) if (q.has(p)) { const v=q.get(p).trim().slice(0,200); if (v || p==="edad") C[k]=v; }
+  if (q.has("hora")) { const h=q.get("hora").split(/[-–a ]+/).filter(Boolean); if(h[0]) C.horaInicio=h[0]; if(h[1]) C.horaFin=h[1]; }
+  C.whatsapp = String(C.whatsapp).replace(/\D/g,"");
+  C.edad = String(C.edad||"").trim();
+  if (!C.evento) C.evento = "Cumpleaños";
+  const isHM = s => /^\d{1,2}:\d{2}$/.test(s);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(C.fecha)) C.fecha = CONFIG.fecha;
+  if (!isHM(C.horaInicio)) C.horaInicio = CONFIG.horaInicio;
+  if (!isHM(C.horaFin)) C.horaFin = CONFIG.horaFin;
+  if (!/^[+-]\d{2}:\d{2}$/.test(C.utcOffset)) C.utcOffset = "auto";
+  if (C.utcOffset === "auto") { // DST EE. UU.: 2º domingo de marzo a 1er domingo de noviembre
+    const [y,mo,da] = C.fecha.split("-").map(Number);
+    const nthSun = (m,n) => { const d=new Date(Date.UTC(y,m,1)); return 1 + (7 - d.getUTCDay())%7 + 7*(n-1); };
+    const v = mo*100+da, a = 300+nthSun(2,2), b = 1100+nthSun(10,1);
+    C.utcOffset = (v>=a && v<b) ? "-06:00" : "-07:00";
+  }
+
+  /* ---- 2. Formatos ---- */
+  const [Y,M,D] = C.fecha.split("-").map(Number);
+  const fechaTxt = new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).format(new Date(Date.UTC(Y,M-1,D,12)));
+  const hm = s => { let [h,m]=s.split(":").map(Number); const ap=h>=12?"pm":"am"; h=h%12||12; return h+":"+String(m).padStart(2,"0")+" "+ap; };
+  const ini = hm(C.horaInicio), fin = hm(C.horaFin);
+  const horaTxt = ini.slice(-2)===fin.slice(-2) ? ini.slice(0,-3)+" a "+fin : ini+" a "+fin;
+  const toDate = t => new Date(C.fecha+"T"+t.padStart(5,"0")+":00"+C.utcOffset);
+  const start = toDate(C.horaInicio); let end = toDate(C.horaFin);
+  if (end <= start) end = new Date(end.getTime()+864e5); // termina después de medianoche
+  const $ = id => document.getElementById(id);
+  const evCap = C.evento.charAt(0).toUpperCase()+C.evento.slice(1);
+
+  /* ---- 3. Pintar contenido (solo textContent: seguro con parámetros) ---- */
+  const nm = C.nombre + "?";
+  $("name").textContent = nm; $("name").setAttribute("data-t", nm);
+  $("evento").textContent = evCap;
+  if (C.edad) { $("age").textContent = /^\d+$/.test(C.edad) ? C.edad + " años" : C.edad; $("ageChip").hidden = false; }
+  const ft = fechaTxt.replace(/,/g,""), FT = ft.charAt(0).toUpperCase()+ft.slice(1);
+  $("date").textContent = FT; $("dateShort").textContent = FT;
+  $("time").textContent = horaTxt; $("timeShort").textContent = horaTxt;
+  $("place").textContent = C.lugar; $("addr").textContent = C.direccion;
+  $("obj2").textContent = "Celebrar a " + C.nombre;
+  $("op").textContent = evCap + " de " + C.nombre + (C.edad && /^\d+$/.test(C.edad) ? " · " + C.edad + " años" : "");
+  $("file").textContent = "AW-" + C.fecha.slice(2).replace(/-/g,"") + "-" + C.horaInicio.replace(":","");
+  document.title = `${evCap} de ${C.nombre} · Another World VR Arena`;
+  const LV = {5:"Extrema",4:"Alta",3:"Media",2:"Baja",1:"Suave"};
+  const g = $("games");
+  C.misiones.forEach((m,i) => {
+    const n = Math.max(1,Math.min(5,m.nivel|0||3));
+    const el = document.createElement("article"); el.className = "game rv" + (n<=3?" l3":""); el.style.setProperty("--d",((i%3)*.08)+"s");
+    el.innerHTML = '<div class="art"><span class="n"></span><span class="lvl"></span><img loading="lazy" width="800" height="500"></div><div class="body"><h3></h3><p class="g"></p><p class="x"></p><div class="int">Intensidad <span class="bars"></span></div></div>';
+    el.querySelector(".n").textContent = "M-" + String(i+1).padStart(2,"0");
+    const lv = el.querySelector(".lvl"); lv.textContent = LV[n]; if (n<=3) lv.classList.add("l3");
+    const im = el.querySelector("img"); if (m.img) { im.src = m.img; im.alt = m.titulo; } else im.parentNode.removeChild(im);
+    el.querySelector("h3").textContent = m.titulo; el.querySelector(".g").textContent = m.genero || "";
+    el.querySelector(".x").textContent = m.desc || "";
+    const bars = el.querySelector(".bars"); for (let k=1;k<=5;k++){ const s=document.createElement("s"); if(k<=n) s.className="on"; bars.appendChild(s); }
+    el.querySelector(".int").setAttribute("aria-label","Intensidad "+LV[n]+", "+n+" de 5");
+    g.appendChild(el);
+  });
+
+  /* ---- 4. Enlaces ---- */
+  $("maps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.lugar + ", " + C.direccion);
+  const msg = C.mensaje.replace("{evento}",evCap).replace("{nombre}",C.nombre).replace("{edad}",C.edad).replace("{fecha}",fechaTxt).replace("{hora}",horaTxt);
+  $("rsvpBtn").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg);
+  $("ics").addEventListener("click", () => {
+    const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+    const esc = s => String(s).replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n");
+    const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion adultos//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT","UID:"+f(start)+"-"+Math.random().toString(36).slice(2)+"@anotherworld-invitacion",
+      "DTSTAMP:"+f(new Date()),"DTSTART:"+f(start),"DTEND:"+f(end),
+      "SUMMARY:"+esc(`Misión VR: ${evCap} de ${C.nombre}`),
+      "LOCATION:"+esc(C.lugar+", "+C.direccion),
+      "DESCRIPTION:"+esc("Experiencia para mayores de 18 años. Llega 15 minutos antes para el briefing. Calzado cerrado y ropa cómoda."),
+      "BEGIN:VALARM","TRIGGER:-PT2H","ACTION:DISPLAY","DESCRIPTION:Misión VR en 2 horas","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));
+    a.download = "mision-another-world.ics"; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500);
+  });
+
+  /* ---- 5. Cuenta regresiva + reloj HUD ---- */
+  const pad = n => String(n).padStart(2,"0");
+  function tick(){
+    const now = new Date(); $("clock").textContent = pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
+    const ms = start - now;
+    if (ms <= 0) { const c=$("count"); c.className="count done rv in"; c.textContent = now < end ? "La misión está en curso" : "Misión completada"; return; }
+    const s = Math.floor(ms/1000);
+    $("cd-d").textContent = pad(Math.floor(s/86400)); $("cd-h").textContent = pad(Math.floor(s%86400/3600));
+    $("cd-m").textContent = pad(Math.floor(s%3600/60)); $("cd-s").textContent = pad(s%60);
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---- 6. Video del hero (vertical en móvil, 16:9 en escritorio), revelado y glitch ---- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const portrait = matchMedia("(max-aspect-ratio: 1/1)").matches;
+  const tag = portrait ? "3x4" : "16x9";
+  $("poster").src = "img/hero-"+tag+".webp";
+  const v = $("hv");
+  if (!reduce) {
+    v.poster = "img/hero-"+tag+".webp"; v.src = "video/hero-"+tag+".mp4"; v.preload = "auto";
+    v.addEventListener("playing", () => { $("poster").style.opacity = 0; }, {once:true});
+    if ("IntersectionObserver" in window) new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) v.play().catch(()=>{}); else v.pause(); }),{threshold:.2}).observe(v);
+    else v.play().catch(()=>{});
+  } else v.remove();
+  const rv = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) rv.forEach(e=>e.classList.add("in"));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -6% 0px",threshold:.06});
+    rv.forEach(e=>io.observe(e));
+    const gl = $("name"); const fire = () => { gl.classList.remove("on"); void gl.offsetWidth; gl.classList.add("on"); };
+    setTimeout(fire, 700); setInterval(fire, 6500);
+  }
+})();
+</script>
+</body>
+</html>
