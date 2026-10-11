@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#050d24">
+<title>Confirmación de Misión · Another World VR Arena</title>
+<meta name="description" content="Invitación oficial · Another World VR Arena, Juárez">
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DEL EVENTO  —  edita SOLO este bloque para cada invitación
+   (también se puede sobrescribir con parámetros en la URL, ver README.txt)
+   ===================================================================== */
+const CONFIG = {
+  nombre:     "NOMBRE",            // nombre del festejado (placeholder)
+  edad:       "10",                // años que cumple
+  fecha:      "2026-11-14",        // AAAA-MM-DD (ejemplo: sábado 14 de noviembre)
+  horaInicio: "17:00",             // HH:MM (24 h)
+  horaFin:    "19:00",             // HH:MM (24 h)
+  utcOffset:  "auto",              // "auto" = horario de Cd. Juárez (MST -07:00 / MDT -06:00 con DST de EE. UU.); o fija p. ej. "-06:00"
+  whatsapp:   "5216560000000",     // PLACEHOLDER: número que recibe las confirmaciones (solo dígitos, con lada país)
+  mensaje:    "¡Hola! Confirmo asistencia a la misión de cumpleaños de {nombre} en Another World VR Arena el {fecha} ({hora}). Somos __ personas.",
+  lugar:      "Another World VR Arena",
+  direccion:  "Av. Ejército Nacional 5230, Local 9, Juárez, Chih.",
+  misiones: [
+    { titulo: "Shmooter: Forts",     genero: "PvP Shooter Multinivel" },
+    { titulo: "Kernel: Bunker",      genero: "Shooter Hiperrealista" },
+    { titulo: "Safe Night",          genero: "Supervivencia Mutante 2041" },
+    { titulo: "Ghost Tower: Mansion",genero: "Aventura Infantil y Familiar" }
+  ]
+};
+</script>
+<style>
+@font-face{font-family:"Orbitron";src:url("fonts/Orbitron.ttf") format("truetype");font-weight:400 900;font-display:swap}
+@font-face{font-family:"Inter";src:url("fonts/Inter.ttf") format("truetype");font-weight:100 900;font-display:swap}
+:root{
+  --navy:#092251; --ink:#03081a; --red:#DE1943; --coral:#E8826A; --white:#fff;
+  --muted:rgba(225,232,255,.68); --line:rgba(255,255,255,.09);
+  --display:"Orbitron",system-ui,sans-serif; --body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{min-height:100svh;font-family:var(--body);color:var(--white);background:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.5}
+a{color:inherit;text-decoration:none}
+
+/* ---------- Fondo cinematográfico ---------- */
+.bg{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;
+  background:
+    radial-gradient(120% 70% at 50% -10%, #12317a 0%, rgba(9,34,81,.85) 35%, transparent 70%),
+    radial-gradient(90% 60% at 50% 110%, rgba(222,25,67,.22) 0%, transparent 60%),
+    linear-gradient(180deg,#071a43 0%, #050f2b 45%, #02060f 100%);}
+.fog{position:absolute;width:120vmax;height:120vmax;border-radius:50%;filter:blur(60px);opacity:.85;will-change:transform}
+.fog.f1{left:-50vmax;top:-30vmax;background:radial-gradient(circle,rgba(120,150,230,.20),transparent 60%);animation:drift1 46s ease-in-out infinite alternate}
+.fog.f2{right:-60vmax;top:10vmax;background:radial-gradient(circle,rgba(222,25,67,.18),transparent 60%);animation:drift2 58s ease-in-out infinite alternate}
+.fog.f3{left:-20vmax;bottom:-70vmax;background:radial-gradient(circle,rgba(232,130,106,.16),transparent 62%);animation:drift3 52s ease-in-out infinite alternate}
+.fog.f4{right:-40vmax;bottom:-50vmax;background:radial-gradient(circle,rgba(170,190,255,.10),transparent 60%);animation:drift1 64s ease-in-out infinite alternate-reverse}
+@keyframes drift1{to{transform:translate3d(18vmax,10vmax,0) scale(1.15)}}
+@keyframes drift2{to{transform:translate3d(-22vmax,14vmax,0) scale(1.1)}}
+@keyframes drift3{to{transform:translate3d(16vmax,-12vmax,0) scale(1.2)}}
+/* piso de rejilla VR */
+.floor{position:absolute;left:-50%;right:-50%;bottom:-2px;height:46vh;perspective:340px;opacity:.55;
+  -webkit-mask-image:linear-gradient(to top,#000 10%,transparent 95%);mask-image:linear-gradient(to top,#000 10%,transparent 95%)}
+.floor .grid{position:absolute;inset:-100% 0 0 0;transform-origin:50% 100%;transform:rotateX(72deg);
+  background-image:linear-gradient(rgba(222,25,67,.55) 1px,transparent 1px),linear-gradient(90deg,rgba(222,25,67,.35) 1px,transparent 1px);
+  background-size:64px 64px;animation:floor 3.2s linear infinite;will-change:transform}
+@keyframes floor{from{transform:rotateX(72deg) translateY(0)}to{transform:rotateX(72deg) translateY(64px)}}
+.horizon{position:absolute;left:0;right:0;bottom:44vh;height:1px;background:linear-gradient(90deg,transparent,rgba(232,130,106,.5),transparent);box-shadow:0 0 30px 6px rgba(222,25,67,.25);opacity:.6}
+#dust{position:absolute;inset:0;width:100%;height:100%}
+.grain{position:absolute;inset:-50%;opacity:.07;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+.vignette{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.65) 100%)}
+
+/* ---------- Tarjeta ---------- */
+.wrap{position:relative;z-index:1;min-height:100svh;display:flex;justify-content:center;padding:max(20px,env(safe-area-inset-top)) 16px 40px}
+.card{position:relative;width:100%;max-width:480px;align-self:flex-start;margin-top:8px;
+  background:linear-gradient(180deg,rgba(13,33,82,.62),rgba(5,13,36,.72));
+  border:1px solid rgba(255,255,255,.08);border-radius:28px;padding:28px 22px 26px;
+  box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.06);
+  -webkit-backdrop-filter:blur(14px) saturate(120%);backdrop-filter:blur(14px) saturate(120%)}
+.card::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(160deg,rgba(222,25,67,.55),rgba(255,255,255,.06) 30%,rgba(255,255,255,.02) 70%,rgba(232,130,106,.45));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+
+/* ---------- Tira LED ---------- */
+.led{position:relative;height:3px;margin:22px auto;width:100%;border-radius:3px;overflow:hidden;
+  background:repeating-linear-gradient(90deg,rgba(222,25,67,.28) 0 6px,transparent 6px 11px)}
+.led::after{content:"";position:absolute;top:-4px;bottom:-4px;width:38%;left:0;
+  background:radial-gradient(closest-side,rgba(255,255,255,.95),rgba(232,130,106,.85) 35%,rgba(222,25,67,.0) 100%);
+  filter:blur(1px);transform:translateX(-120%);animation:pulse 3.6s cubic-bezier(.45,.05,.35,1) infinite;will-change:transform}
+.led.rev::after{animation-direction:reverse;animation-duration:4.4s}
+@keyframes pulse{to{transform:translateX(320%)}}
+.led-glow{box-shadow:0 0 12px rgba(222,25,67,.35)}
+
+/* ---------- Encabezado ---------- */
+header{text-align:center}
+.logo{width:150px;height:auto;display:block;margin:0 auto;filter:drop-shadow(0 0 10px rgba(222,25,67,.35));animation:logoGlow 6s ease-in-out infinite}
+@keyframes logoGlow{0%,100%{filter:drop-shadow(0 0 8px rgba(222,25,67,.30))}50%{filter:drop-shadow(0 0 18px rgba(222,25,67,.55))}}
+.tag{margin-top:14px;font-family:var(--display);font-size:9px;letter-spacing:.14em;font-weight:600;color:var(--muted)}
+
+.tag .sep{display:none}.tag .city{display:block;margin-top:4px;color:var(--coral);letter-spacing:.4em}
+.kicker{text-align:center}
+.kicker .k1{font-size:11.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--coral);font-weight:600}
+.kicker .k2{margin-top:8px;font-family:var(--display);font-weight:700;font-size:15px;letter-spacing:.06em;line-height:1.35}
+
+/* ---------- Hero ---------- */
+.hero{text-align:center;padding:26px 0 8px}
+.hero .pre{font-size:11px;letter-spacing:.38em;color:var(--muted);text-transform:uppercase}
+.name{position:relative;display:inline-block;margin-top:10px;font-family:var(--display);font-weight:900;
+  font-size:clamp(40px,13vw,64px);line-height:1;letter-spacing:.02em;word-break:break-word}
+.name::after{content:attr(data-text);position:absolute;inset:0;color:transparent;
+  text-shadow:0 0 18px rgba(222,25,67,.85),0 0 42px rgba(222,25,67,.5);z-index:-1;animation:flicker 7s linear infinite}
+@keyframes flicker{0%,18%,22%,25%,53%,57%,100%{opacity:1}20%,24%,55%{opacity:.35}}
+.age{margin-top:16px;display:flex;align-items:baseline;justify-content:center;gap:14px}
+.age .cumple{font-family:var(--display);font-weight:600;font-size:16px;letter-spacing:.34em}
+.age .num{font-family:var(--display);font-weight:900;font-size:44px;line-height:1;color:var(--red);
+  text-shadow:0 0 14px rgba(222,25,67,.75),0 0 34px rgba(222,25,67,.4)}
+.age .bang{font-family:var(--display);font-weight:900;font-size:30px;color:var(--red)}
+
+/* ---------- Secciones ---------- */
+.sec{margin-top:26px}
+.h{display:flex;align-items:center;gap:10px;font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.28em;color:var(--coral);text-transform:uppercase;margin-bottom:14px}
+.h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(232,130,106,.45),transparent)}
+.panel{background:rgba(255,255,255,.035);border:1px solid var(--line);border-radius:18px;padding:18px}
+.when{text-align:center}
+.when .d{font-size:19px;font-weight:700}
+.when .t{margin-top:4px;color:var(--muted);font-size:15px}
+.count{margin-top:16px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.count div{background:rgba(3,8,26,.55);border:1px solid var(--line);border-radius:12px;padding:10px 0 8px}
+.count b{display:block;font-family:var(--display);font-size:22px;font-weight:700;font-variant-numeric:tabular-nums}
+.count span{font-size:9.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase}
+.count.done{display:block;text-align:center;font-family:var(--display);font-size:13px;letter-spacing:.14em;color:var(--coral)}
+
+.games{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.game{position:relative;overflow:hidden;border-radius:16px;padding:16px 14px 14px;min-height:118px;
+  background:linear-gradient(160deg,rgba(18,44,104,.7),rgba(6,15,40,.75));border:1px solid var(--line);
+  transition:transform .35s ease,border-color .35s ease}
+.game::before{content:"";position:absolute;left:14px;right:14px;top:0;height:2px;background:linear-gradient(90deg,transparent,var(--red),transparent);box-shadow:0 0 12px var(--red)}
+.game:hover{transform:translateY(-3px);border-color:rgba(222,25,67,.45)}
+.game .n{font-family:var(--display);font-size:11px;color:var(--red);font-weight:700;letter-spacing:.1em}
+.game h3{margin-top:10px;font-size:15px;font-weight:700;line-height:1.25}
+.game p{margin-top:6px;font-size:12px;color:var(--muted);line-height:1.35}
+
+.rules{list-style:none;display:grid;gap:10px}
+.rules li{display:flex;gap:12px;align-items:flex-start;font-size:14.5px;line-height:1.45}
+.ic{flex:none;width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:rgba(222,25,67,.12);border:1px solid rgba(222,25,67,.3)}
+.ic svg{width:18px;height:18px;stroke:var(--coral);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rules small{display:block;color:var(--muted);font-size:12.5px}
+
+.place .pl{font-weight:700;font-size:16px}
+.place .ad{color:var(--muted);font-size:14px;margin-top:2px}
+
+.btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:52px;border-radius:14px;
+  font-weight:700;font-size:15px;letter-spacing:.02em;cursor:pointer;border:0;font-family:var(--body);transition:transform .2s ease,box-shadow .3s ease,background .3s ease}
+.btn svg{width:19px;height:19px;flex:none}
+.btn:active{transform:scale(.98)}
+.btn.primary{color:#fff;background:linear-gradient(180deg,#f02a55,#c4113a);box-shadow:0 10px 30px rgba(222,25,67,.4),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.primary:hover{box-shadow:0 12px 40px rgba(222,25,67,.6),inset 0 1px 0 rgba(255,255,255,.25)}
+.btn.ghost{color:#fff;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.16)}
+.btn.ghost:hover{background:rgba(255,255,255,.09)}
+.btn.small{min-height:44px;font-size:14px;margin-top:14px}
+.ctas{display:grid;gap:10px}
+footer{text-align:center;margin-top:26px;font-size:11px;letter-spacing:.2em;color:rgba(225,232,255,.45);text-transform:uppercase}
+
+/* ---------- Revelado escalonado ---------- */
+.rv{opacity:0;transform:translate3d(0,18px,0);filter:blur(4px);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1),filter .9s ease;transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none;filter:none}
+
+/* ---------- Escritorio ---------- */
+@media (min-width:760px){
+  .tag{letter-spacing:.24em;font-size:9.5px} .tag .sep{display:inline} .tag .city{display:inline;margin:0;color:inherit;letter-spacing:inherit} .kicker .k1{letter-spacing:.32em}
+  .wrap{padding:56px 24px 64px;align-items:flex-start}
+  .card{max-width:540px;padding:40px 40px 34px}
+  .logo{width:180px}
+  .ctas{grid-template-columns:1.3fr 1fr}
+}
+@media (max-width:350px){ .games{grid-template-columns:1fr} .count b{font-size:18px} }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none;filter:none}
+  #dust{display:none}
+}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true">
+  <div class="fog f1"></div><div class="fog f2"></div><div class="fog f3"></div><div class="fog f4"></div>
+  <div class="horizon"></div>
+  <div class="floor"><div class="grid"></div></div>
+  <canvas id="dust"></canvas>
+  <div class="grain"></div><div class="vignette"></div>
+</div>
+
+<main class="wrap">
+  <article class="card">
+    <header class="rv" style="--d:.05s">
+      <img class="logo" src="assets/aw_logo.png" alt="Another World" width="800" height="434">
+      <p class="tag">VR ARENA &amp; IMMERSIVE ENTERTAINMENT<span class="sep"> • </span><span class="city">JUÁREZ</span></p>
+    </header>
+
+    <div class="led led-glow rv" style="--d:.2s"></div>
+
+    <section class="kicker rv" style="--d:.3s">
+      <p class="k1">Confirmación Oficial de Misión</p>
+      <p class="k2">¡PREPÁRENSE PARA LA INMERSIÓN TOTAL!</p>
+    </section>
+
+    <section class="hero">
+      <p class="pre rv" style="--d:.45s">Fiesta de cumpleaños</p>
+      <h1 class="rv" style="--d:.55s"><span class="name" id="name" data-text="¡NOMBRE">¡NOMBRE</span></h1>
+      <div class="age rv" style="--d:.7s" aria-label="cumple años"><span class="cumple">CUMPLE</span><span class="num"><span id="age">10</span>!</span></div>
+    </section>
+
+    <section class="sec rv" style="--d:.85s">
+      <h2 class="h">Fecha y hora</h2>
+      <div class="panel when">
+        <p class="d" id="date">Sábado 16 de agosto</p>
+        <p class="t" id="time">5:00 a 7:00 pm</p>
+        <div class="count" id="count" aria-live="polite">
+          <div><b id="cd-d">00</b><span>Días</span></div>
+          <div><b id="cd-h">00</b><span>Horas</span></div>
+          <div><b id="cd-m">00</b><span>Min</span></div>
+          <div><b id="cd-s">00</b><span>Seg</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec rv">
+      <h2 class="h">Misiones</h2>
+      <div class="games" id="games"></div>
+    </section>
+
+    <section class="sec rv">
+      <h2 class="h">Instrucciones tácticas</h2>
+      <ul class="rules panel">
+        <li><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+          <span>Llega <b>15 minutos antes</b> para el briefing.<small>Así todos entran a la misión a tiempo.</small></span></li>
+        <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 16h12l4-3h2v4H3z"/><path d="M6 16V9h4l3 4"/></svg></span>
+          <span><b>Calzado cerrado</b> y ropa cómoda.<small>Arena sin cables: libertad total de movimiento.</small></span></li>
+      </ul>
+    </section>
+
+    <section class="sec rv">
+      <h2 class="h">Base de operaciones</h2>
+      <div class="panel place">
+        <p class="pl" id="place">Another World VR Arena</p>
+        <p class="ad" id="addr">Av. Ejército Nacional 5230, Local 9, Juárez, Chih.</p>
+        <a class="btn ghost small" id="maps" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+          Cómo llegar</a>
+      </div>
+    </section>
+
+    <div class="led rev rv"></div>
+
+    <section class="ctas rv">
+      <a class="btn primary" id="rsvp" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.7 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+        Confirmar asistencia</a>
+      <button class="btn ghost" id="ics" type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg>
+        Agregar al calendario</button>
+    </section>
+
+    <footer class="rv">Another World VR Arena · Juárez</footer>
+  </article>
+</main>
+
+<script>
+(function(){
+  /* ---- 1. Config + parámetros de URL ---- */
+  const C = Object.assign({}, CONFIG);
+  const q = new URLSearchParams(location.search);
+  const map = {nombre:"nombre",edad:"edad",fecha:"fecha",inicio:"horaInicio",fin:"horaFin",tz:"utcOffset",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
+  for (const [p,k] of Object.entries(map)) if (q.has(p) && q.get(p).trim()) C[k] = q.get(p).trim().slice(0,200);
+  if (q.has("hora")) { const h=q.get("hora").split(/[-–a ]+/).filter(Boolean); if(h[0]) C.horaInicio=h[0]; if(h[1]) C.horaFin=h[1]; }
+  C.whatsapp = String(C.whatsapp).replace(/\D/g,"");
+  const isHM = s => /^\d{1,2}:\d{2}$/.test(s);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(C.fecha)) C.fecha = CONFIG.fecha;
+  if (!isHM(C.horaInicio)) C.horaInicio = CONFIG.horaInicio;
+  if (!isHM(C.horaFin)) C.horaFin = CONFIG.horaFin;
+  if (!/^[+-]\d{2}:\d{2}$/.test(C.utcOffset)) C.utcOffset = "auto";
+  if (C.utcOffset === "auto") { // DST EE. UU.: 2º domingo de marzo a 1er domingo de noviembre
+    const [y,mo,da] = C.fecha.split("-").map(Number);
+    const nthSun = (m,n) => { const d=new Date(Date.UTC(y,m,1)); return 1 + (7 - d.getUTCDay())%7 + 7*(n-1); };
+    const v = mo*100+da, a = 300+nthSun(2,2), b = 1100+nthSun(10,1);
+    C.utcOffset = (v>=a && v<b) ? "-06:00" : "-07:00";
+  }
+
+  /* ---- 2. Formatos ---- */
+  const [Y,M,D] = C.fecha.split("-").map(Number);
+  const fechaTxt = new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).format(new Date(Date.UTC(Y,M-1,D,12)));
+  const hm = s => { let [h,m]=s.split(":").map(Number); const ap=h>=12?"pm":"am"; h=h%12||12; return h+":"+String(m).padStart(2,"0")+" "+ap; };
+  const ini = hm(C.horaInicio), fin = hm(C.horaFin);
+  const horaTxt = ini.slice(-2)===fin.slice(-2) ? ini.slice(0,-3)+" a "+fin : ini+" a "+fin;
+  const toDate = t => new Date(C.fecha+"T"+t.padStart(5,"0")+":00"+C.utcOffset);
+  const start = toDate(C.horaInicio), end = toDate(C.horaFin);
+  const $ = id => document.getElementById(id);
+
+  /* ---- 3. Pintar contenido (solo textContent: seguro con parámetros) ---- */
+  const nm = "¡" + C.nombre.toUpperCase();
+  $("name").textContent = nm; $("name").dataset.text = nm;
+  $("age").textContent = C.edad;
+  const ft = fechaTxt.replace(/,/g,""); $("date").textContent = ft.charAt(0).toUpperCase()+ft.slice(1);
+  $("time").textContent = horaTxt;
+  $("place").textContent = C.lugar; $("addr").textContent = C.direccion;
+  document.title = `${C.nombre} cumple ${C.edad} · Another World VR Arena`;
+  const g = $("games");
+  C.misiones.forEach((m,i) => {
+    const el = document.createElement("div"); el.className = "game";
+    el.innerHTML = '<span class="n"></span><h3></h3><p></p>';
+    el.querySelector(".n").textContent = "M-" + String(i+1).padStart(2,"0");
+    el.querySelector("h3").textContent = m.titulo; el.querySelector("p").textContent = m.genero;
+    g.appendChild(el);
+  });
+
+  /* ---- 4. Enlaces ---- */
+  $("maps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.lugar + ", " + C.direccion);
+  const msg = C.mensaje.replace("{nombre}",C.nombre).replace("{fecha}",fechaTxt).replace("{hora}",horaTxt);
+  $("rsvp").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg);
+  $("ics").addEventListener("click", () => {
+    const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+    const esc = s => String(s).replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n");
+    const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT","UID:"+f(start)+"-"+Math.random().toString(36).slice(2)+"@anotherworld-invitacion",
+      "DTSTAMP:"+f(new Date()),"DTSTART:"+f(start),"DTEND:"+f(end),
+      "SUMMARY:"+esc(`Misión VR: ${C.nombre} cumple ${C.edad}`),
+      "LOCATION:"+esc(C.lugar+", "+C.direccion),
+      "DESCRIPTION:"+esc("Llega 15 minutos antes para el briefing. Calzado cerrado y ropa cómoda."),
+      "BEGIN:VALARM","TRIGGER:-PT2H","ACTION:DISPLAY","DESCRIPTION:Misión VR en 2 horas","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));
+    a.download = "mision-another-world.ics"; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500);
+  });
+
+  /* ---- 5. Cuenta regresiva ---- */
+  const pad = n => String(n).padStart(2,"0");
+  function tick(){
+    const ms = start - Date.now();
+    if (ms <= 0) { const c=$("count"); c.className="count done"; c.textContent = Date.now() < end ? "¡La misión está en curso!" : "Misión completada"; return false; }
+    const s = Math.floor(ms/1000);
+    $("cd-d").textContent = pad(Math.floor(s/86400)); $("cd-h").textContent = pad(Math.floor(s%86400/3600));
+    $("cd-m").textContent = pad(Math.floor(s%3600/60)); $("cd-s").textContent = pad(s%60); return true;
+  }
+  if (tick()) { const t = setInterval(()=>{ if(!tick()) clearInterval(t); },1000); }
+
+  /* ---- 6. Revelado escalonado ---- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rv = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) rv.forEach(e=>e.classList.add("in"));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -8% 0px",threshold:.08});
+    rv.forEach(e=>io.observe(e));
+  }
+
+  /* ---- 7. Partículas de polvo luminoso (canvas ligero) ---- */
+  if (!reduce) {
+    const cv = $("dust"), cx = cv.getContext("2d"); let W,H,P=[],dpr=Math.min(devicePixelRatio||1,2);
+    function size(){ W=cv.width=innerWidth*dpr; H=cv.height=innerHeight*dpr; cv.style.width=innerWidth+"px"; cv.style.height=innerHeight+"px";
+      const n = Math.round(Math.min(60, innerWidth*innerHeight/18000));
+      P = Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.4+.4)*dpr,v:(Math.random()*.25+.06)*dpr,a:Math.random()*.5+.15,p:Math.random()*6.28,c:Math.random()<.35?"232,130,106":(Math.random()<.5?"222,25,67":"200,215,255")})); }
+    size(); addEventListener("resize",size);
+    let last=0;
+    (function loop(t){ requestAnimationFrame(loop); if (document.hidden || t-last<33) return; last=t;
+      cx.clearRect(0,0,W,H);
+      for (const o of P){ o.y-=o.v; o.x+=Math.sin(t/3000+o.p)*.15*dpr; if(o.y<-10){o.y=H+10;o.x=Math.random()*W;}
+        const a=o.a*(.6+.4*Math.sin(t/900+o.p)); cx.beginPath(); cx.fillStyle=`rgba(${o.c},${a})`; cx.shadowColor=`rgba(${o.c},${a})`; cx.shadowBlur=6*dpr; cx.arc(o.x,o.y,o.r,0,6.283); cx.fill(); }
+    })(0);
+  }
+})();
+</script>
+</body>
+</html>
