@@ -398,7 +398,7 @@ footer p{margin-top:12px;font-size:13px;font-weight:700;color:var(--muted);lette
   $("ics").addEventListener("click", () => {
     const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
     const esc = s => String(s).replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n");
-    const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion v3//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+    const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion kids//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
       "BEGIN:VEVENT","UID:"+f(start)+"-"+Math.random().toString(36).slice(2)+"@anotherworld-invitacion",
       "DTSTAMP:"+f(new Date()),"DTSTART:"+f(start),"DTEND:"+f(end),
       "SUMMARY:"+esc(`Fiesta VR: ${C.nombre} cumple ${C.edad}`),
