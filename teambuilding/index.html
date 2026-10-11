@@ -1,0 +1,670 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C0C16">
+<title>Operación Equipo · Team Building · Another World VR Arena</title>
+<meta name="description" content="Invitación a Team Building en realidad virtual con Another World VR Arena, Juárez.">
+<meta property="og:title" content="Operación Equipo · Team Building en realidad virtual">
+<meta property="og:description" content="Tu empresa te invita a una misión de equipo en Another World VR Arena.">
+<meta property="og:image" content="img/hero-16x9.webp">
+<!-- Imágenes: solo capturas/arte de juegos y logotipo oficial. Sin fotografías de personas reales. Sin precios. -->
+<link rel="icon" type="image/png" href="img/aw-logo-sign.png">
+<link rel="preload" href="fonts/igra-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-code-pro-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+/* =====================================================================
+   CONFIGURACIÓN — edita SOLO este bloque (o usa parámetros de URL)
+   URL: ?empresa=&formato=play4fun|escape|bandera|torneo&evento=&fecha=AAAA-MM-DD
+        &hora=HH:MM-HH:MM (o inicio=&fin=)&tz=-07:00&sede=arena|empresa&lugar=&dir=
+        &organizador=&wa=&msg=   (msg admite {empresa} {evento} {fecha} {hora} {organizador} {formato})
+   ===================================================================== */
+const CONFIG = {
+  empresa:     "",                    // nombre de la empresa (opcional)
+  formato:     "escape",              // play4fun · escape · bandera · torneo
+  evento:      "Team Building",       // Team Building · Integración · Fin de año · Onboarding…
+  fecha:       "2026-11-12",          // AAAA-MM-DD (PLACEHOLDER)
+  horaInicio:  "09:00",
+  horaFin:     "13:00",
+  utcOffset:   "auto",                // "auto" = Cd. Juárez (MST/MDT con DST de EE. UU.)
+  sede:        "arena",               // arena · empresa
+  lugar:       "",                    // vacío = según sede
+  direccion:   "",                    // vacío = según sede
+  organizador: "",                    // nombre de quien recibe las confirmaciones (opcional)
+  whatsapp:    "5216560000000",       // PLACEHOLDER: WhatsApp del organizador (solo dígitos)
+  mensaje:     "¡Hola{organizador}! Confirmo mi asistencia a la Operación Equipo ({evento}{empresa}) el {fecha} ({hora}). Soy __ del área __."
+};
+const ARENA = { lugar:"Another World VR Arena", direccion:"Av. Ejército Nacional 5230, Local 9, Juárez, Chih.", wa:"5216561121544" };
+/* Formatos oficiales Another World Juárez (sin precios). min = minuto de inicio relativo al evento. */
+const FORMATOS = {
+  play4fun: {
+    nombre:"Play 4 Fun", tag:"Diversión sin presión", dur:"2 h", cupo:"Hasta 48 jugadores", modo:"Grupos de 8 · sesiones de 20 min",
+    desc:"Un rato agradable para todo el equipo: jugar por diversión, sin presión. Rotamos grupos de 8 por la arena para que todos jueguen y prueben distintos mundos.",
+    hab:{comunicacion:2,liderazgo:1,equipo:3,decisiones:2},
+    agenda:[
+      {min:0,  t:"Bienvenida y briefing", d:"Registro, reglas de seguridad y ajuste del equipo VR."},
+      {min:15, t:"Rotaciones de juego", d:"Sesiones de 20 min para grupos de 8. Mientras un grupo juega, los demás conviven en la zona de estar."},
+      {min:105,t:"Cierre y foto de equipo", d:"Últimas partidas, convivencia y despedida."}
+    ],
+    misiones:[
+      {t:"Shmooter: Forts", g:"Equipo vs equipo · Caricatura", img:"img/m-forts.webp", d:"Captura la base rival entre plataformas y portales. Puntería, reflejos y muchas risas."},
+      {t:"Ghost Tower: Dance", g:"Competencia amistosa", img:"img/m-dance.webp", d:"Batalla de baile en una mansión de fantasmas: el rompehielos perfecto para quien nunca ha jugado VR."},
+      {t:"Shmooter: Cubes", g:"Equipo vs equipo · Mundo de cubos", img:"img/m-cubes.webp", d:"Montañas nevadas, bosque y una casa acogedora… hasta que alguien decide invadirla."},
+      {t:"Island Assault", g:"Cooperativo · Defensa", img:"img/m-island.webp", d:"Defiendan juntos la isla: contenedores, construcciones y escondites para coordinar al equipo."}
+    ]
+  },
+  escape: {
+    nombre:"Escape Room Challenge", tag:"Team Building", dur:"4 h", cupo:"24 jugadores", modo:"2 equipos de 4 · sesiones de 1 h",
+    desc:"Un reto que los lleva a descubrir las habilidades necesarias para lograr un objetivo en común, trabajando bajo presión. Impulsa la comunicación y el trabajo en equipo.",
+    hab:{comunicacion:5,liderazgo:4,equipo:5,decisiones:4},
+    agenda:[
+      {min:0,  t:"Kick-off", d:"Introducción y explicación del challenge. Formación de equipos."},
+      {min:30, t:"Escape Room Challenge", d:"3 sesiones de 1 h; en cada una juegan 2 equipos de 4. Quien no juega, apoya y convive en la zona de estar."},
+      {min:210,t:"Closure", d:"Resultados, identificación de roles y la importancia del trabajo en equipo."}
+    ],
+    misiones:[
+      {t:"Misión cooperativa", g:"Escape · Sci-fi", img:"img/m-colony.webp", d:"Estación abandonada, sistemas dañados y poco tiempo: repartir tareas y comunicarse es la única salida."},
+      {t:"Quest de acertijos", g:"Escape · Puzzles bajo presión", img:"img/m-survival.webp", d:"Códigos por descifrar y mecanismos por activar. Nadie sale solo: el equipo completo escapa o nadie lo hace."},
+      {t:"Expedición espacial", g:"Escape · Exploración", img:"img/m-starbase.webp", d:"Lleguen como tripulación, decidan una ruta y coordinen cada paso para completar el objetivo."}
+    ],
+    nota:"El escape room específico lo asigna el equipo de Another World según el grupo."
+  },
+  bandera: {
+    nombre:"Captura la Bandera", tag:"Team Building", dur:"4 h", cupo:"Hasta 48 jugadores", modo:"2 equipos de 4 · sesiones de 30 min",
+    desc:"Trabajen en equipo para retener la bandera el mayor tiempo posible. Se ponen a prueba la comunicación, la estrategia y el trabajo en equipo.",
+    hab:{comunicacion:5,liderazgo:4,equipo:5,decisiones:5},
+    agenda:[
+      {min:0,  t:"Kick-off", d:"Introducción, reglas de la captura y formación de escuadras."},
+      {min:30, t:"Captura la Bandera", d:"6 sesiones de 30 min de Shooter o Star Base; en cada una se enfrentan 2 equipos de 4."},
+      {min:210,t:"Closure", d:"Resultados, estrategias que funcionaron y aprendizajes del equipo."}
+    ],
+    misiones:[
+      {t:"Shmooter: Forts", g:"Shooter · Equipo vs equipo", img:"img/m-forts.webp", d:"Bases, portales y coberturas: defiendan la bandera mientras el otro equipo planea el asalto."},
+      {t:"Shmooter: Space Battle 2", g:"Shooter · Equipo vs equipo", img:"img/m-space.webp", d:"Estación espacial con teletransportadores entre pisos. Comunicar posiciones lo es todo."},
+      {t:"Star Base", g:"Sci-fi · Por equipos", img:"img/m-starbase.webp", d:"Un escenario espacial para coordinar ataque y defensa entre escuadras."}
+    ]
+  },
+  torneo: {
+    nombre:"Tournament", tag:"Torneo", dur:"4 h", cupo:"8 equipos · 24 jugadores", modo:"Sesiones de 15 min · eliminatorias",
+    desc:"Lleven su instinto competitivo a un ambiente sano, con las mismas oportunidades para alzarse con el primer lugar. Rondas eliminatorias, semifinales y gran final con podio y premios para 1.º y 2.º lugar.",
+    hab:{comunicacion:4,liderazgo:5,equipo:4,decisiones:5},
+    agenda:[
+      {min:0,  t:"Registro y sorteo", d:"Briefing de seguridad, formación de 8 equipos y sorteo de llaves."},
+      {min:30, t:"Rondas eliminatorias", d:"Duelos de 15 min de Shooter o Kernel. Avanza el equipo ganador."},
+      {min:150,t:"Semifinales", d:"Los 4 mejores equipos se enfrentan por un lugar en la final."},
+      {min:180,t:"Gran final", d:"El duelo decisivo frente a toda la empresa."},
+      {min:210,t:"Podio y premiación", d:"Podio con globos y premios para 1.º y 2.º lugar."}
+    ],
+    misiones:[
+      {t:"Shmooter: Cubes", g:"Shooter · Duelos por equipos", img:"img/m-cubes.webp", d:"Arcade, rápido y parejo: ideal para eliminatorias de 15 minutos."},
+      {t:"Shmooter: Space Battle 2", g:"Shooter · Duelos por equipos", img:"img/m-space.webp", d:"Combate entre pisos de una estación espacial. Gana quien mejor se coordine."},
+      {t:"Kernel: Raven", g:"Shooter táctico · Por equipos", img:"img/m-raven.webp", d:"Rascacielos en construcción, escondites y táctica pura para las rondas decisivas."}
+    ],
+    bracket:true
+  }
+};
+</script>
+<style>
+@font-face{font-family:"Igra Sans";src:url(fonts/igra-sans.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Jura";src:url(fonts/jura-bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-600.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --black:#0C0C16;--panel:#10121F;--panel2:#131830;--line:rgba(120,170,255,.14);
+  --blue:#0062BA;--neon:#246FFF;--neon2:#249AFF;--red:#EA0046;--red2:#F80C4F;--white:#fff;--mute:#AAB2C8;--dim:#6F7894;
+  --h:"Igra Sans",system-ui,sans-serif;--s:"Jura",system-ui,sans-serif;--b:"Source Code Pro",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--black);scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--black);color:var(--white);font:400 14px/1.7 var(--b);letter-spacing:-.03em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%;height:auto}
+a{color:inherit;text-decoration:none}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+[hidden]{display:none!important}
+
+/* barra superior: logo oficial sobre negro sólido con área libre */
+.top{background:var(--black);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 0}
+.top .logo{width:150px}
+.tag{display:flex;align-items:center;gap:8px;font:600 10.5px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--neon2)}
+.tag i{width:8px;height:8px;background:var(--neon2);transform:rotate(45deg);box-shadow:0 0 10px var(--neon2)}
+
+/* hero */
+.hero{position:relative;overflow:hidden;isolation:isolate;min-height:calc(100svh - 79px);max-height:960px;display:flex;flex-direction:column;justify-content:flex-end;background:#05060c}
+.hero .bg{position:absolute;inset:0;z-index:-4;width:100%;height:100%;object-fit:cover;object-position:60% 20%;filter:saturate(.7) hue-rotate(8deg) brightness(.85)}
+.hero::before{content:"";position:absolute;inset:0;z-index:-3;
+  background:linear-gradient(180deg,rgba(12,12,22,.35) 0%,rgba(12,12,22,0) 25%,rgba(12,12,22,.35) 48%,rgba(12,12,22,.94) 74%,var(--black) 100%),
+  linear-gradient(0deg,rgba(0,98,186,.22),rgba(0,98,186,.22))}
+.grid{position:absolute;inset:0;z-index:-2;pointer-events:none;opacity:.35;
+  background-image:linear-gradient(rgba(36,154,255,.22) 1px,transparent 1px),linear-gradient(90deg,rgba(36,154,255,.22) 1px,transparent 1px);background-size:44px 44px;
+  -webkit-mask:linear-gradient(180deg,transparent 0,#000 30%,#000 60%,transparent 90%);mask:linear-gradient(180deg,transparent 0,#000 30%,#000 60%,transparent 90%)}
+.sweep{position:absolute;left:0;right:0;height:120px;top:-120px;z-index:-2;pointer-events:none;
+  background:linear-gradient(180deg,transparent,rgba(36,154,255,.16) 85%,rgba(36,154,255,.55) 100%);animation:sweep 6.5s linear infinite}
+@keyframes sweep{to{transform:translateY(calc(100svh + 140px))}}
+.hud{position:absolute;inset:14px;z-index:-1;pointer-events:none;font:600 10px/1.4 var(--b);letter-spacing:.14em;text-transform:uppercase;color:rgba(255,255,255,.75)}
+.hud i{position:absolute;width:22px;height:22px;border:1.5px solid rgba(36,154,255,.8)}
+.hud i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}.hud i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.hud i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}.hud i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
+.hud .tl{position:absolute;top:8px;left:32px;display:flex;align-items:center;gap:8px}
+.hud .tr{position:absolute;top:8px;right:32px;text-align:right}
+.dot{width:7px;height:7px;border-radius:50%;background:#2bdc8c;box-shadow:0 0 10px #2bdc8c;animation:blink 1.8s steps(1,end) infinite}
+@keyframes blink{50%{opacity:.25}}
+.hero .in{padding:0 0 30px}
+.inv{display:inline-flex;align-items:center;gap:10px;font:600 11px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;background:var(--blue);padding:8px 14px 8px 10px;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.inv b{font-weight:600;color:#fff}
+.emp{margin-top:16px;font:700 clamp(20px,5.4vw,30px)/1.15 var(--s);letter-spacing:.01em;color:#fff;word-break:break-word}
+.emp[hidden]{display:none}
+h1{margin-top:6px;font:400 clamp(40px,12vw,92px)/.98 var(--h);letter-spacing:-.02em}
+h1 span{display:block}
+h1 .b2{color:var(--neon2);text-shadow:0 0 34px rgba(36,111,255,.45)}
+.sub{margin-top:12px;font:700 15px/1.4 var(--s);color:var(--mute);letter-spacing:.02em}
+.sub b{color:#fff}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(36,154,255,.35);background:rgba(12,12,22,.65);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font:600 12.5px/1.25 var(--b);letter-spacing:.01em}
+.chip em{font-style:normal;color:var(--neon2);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.cta{margin-top:22px;display:flex;flex-wrap:wrap;gap:10px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;font:600 13px/1 var(--b);letter-spacing:.08em;text-transform:uppercase;border:1px solid transparent;cursor:pointer;color:#fff;background:none;transition:transform .2s,box-shadow .25s,background .25s,border-color .25s;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn.pri{background:var(--blue);border-color:var(--neon)}
+.btn.pri:hover{background:var(--neon);box-shadow:0 0 26px rgba(36,111,255,.5)}
+.btn.red{background:var(--red)}
+.btn.red:hover{background:var(--red2);box-shadow:0 0 26px rgba(248,12,79,.45)}
+.btn.ghost{background:rgba(12,12,22,.55);border-color:rgba(255,255,255,.28)}
+.btn.ghost:hover{border-color:var(--neon2);box-shadow:inset 0 0 0 1px var(--neon2)}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible,summary:focus-visible,a:focus-visible{outline:2px solid var(--neon2);outline-offset:3px}
+
+/* barra de estado de escuadra */
+.squadbar{background:linear-gradient(90deg,#0a1630,#0c0c16 60%);border-block:1px solid var(--line)}
+.squadbar .wrap{display:grid;grid-template-columns:repeat(2,1fr);gap:0}
+.squadbar div{padding:14px 12px;border-left:1px solid var(--line)}
+.squadbar div:nth-child(odd){border-left:0}
+.squadbar span{display:block;font:600 9.5px/1 var(--b);letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
+.squadbar b{display:block;margin-top:7px;font:700 15px/1.2 var(--s);letter-spacing:.01em}
+
+section{position:relative;padding:72px 0}
+.lbl{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--b);letter-spacing:.2em;text-transform:uppercase;color:var(--neon2)}
+.lbl::before{content:"";width:10px;height:10px;border:2px solid var(--red);transform:rotate(45deg)}
+.lbl::after{content:"";height:1px;flex:1;max-width:120px;background:linear-gradient(90deg,var(--neon2),transparent)}
+h2{margin-top:14px;font:400 clamp(28px,7vw,50px)/1.1 var(--h);letter-spacing:-.02em;text-wrap:balance}
+.lead{margin-top:12px;color:var(--mute);max-width:60ch;font-size:14.5px}
+
+/* cuenta regresiva */
+.count-sec{padding:56px 0 8px;text-align:center}
+.count-sec .lbl{justify-content:center}
+.count{margin:22px auto 0;display:grid;grid-template-columns:repeat(4,1fr);max-width:640px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel))}
+.count div{padding:18px 4px 14px}
+.count div+div{border-left:1px solid var(--line)}
+.count b{display:block;font:400 clamp(34px,10vw,62px)/1 var(--h);font-variant-numeric:tabular-nums}
+.count div:last-child b{color:var(--neon2)}
+.count span{display:block;margin-top:8px;font:600 10px/1 var(--b);letter-spacing:.2em;color:var(--dim);text-transform:uppercase}
+.count.done{display:block;padding:22px;font:400 24px/1.2 var(--h);color:var(--neon2)}
+.count-note{margin-top:12px;font-size:12px;color:var(--dim)}
+
+/* habilidades */
+.skills{margin-top:30px;display:grid;grid-template-columns:1fr;gap:12px}
+.sk{position:relative;display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:center;padding:16px;border:1px solid var(--line);background:linear-gradient(135deg,var(--panel2),var(--panel))}
+.sk .ic{width:56px;height:56px;display:grid;place-items:center;border:1.5px solid var(--neon);clip-path:polygon(25% 0,75% 0,100% 50%,75% 100%,25% 100%,0 50%);background:rgba(0,98,186,.25)}
+.sk .ic svg{width:24px;height:24px;stroke:#fff}
+.sk h3{font:700 17px/1.25 var(--s);letter-spacing:.01em}
+.sk p{margin-top:2px;color:var(--mute);font-size:12.5px;line-height:1.55}
+.xp{margin-top:9px;display:flex;align-items:center;gap:10px;font:600 9.5px/1 var(--b);letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+.xp .bar{flex:1;height:6px;background:rgba(255,255,255,.08);position:relative;overflow:hidden;transform:skewX(-20deg)}
+.xp .bar s{position:absolute;inset:0 auto 0 0;width:0;background:linear-gradient(90deg,var(--blue),var(--neon2));transition:width 1.2s cubic-bezier(.2,.7,.2,1) .2s}
+.in .xp .bar s,.xp.in .bar s{width:var(--w)}
+.xp em{font-style:normal;color:#fff;min-width:28px;text-align:right}
+
+/* formato + agenda */
+.fmt{margin-top:30px;border:1px solid var(--line);background:linear-gradient(180deg,var(--panel2),var(--panel));position:relative}
+.fmt::before{content:"";position:absolute;left:-1px;top:-1px;width:64px;height:3px;background:var(--red)}
+.fmt .hd{padding:22px 20px 18px;border-bottom:1px dashed rgba(255,255,255,.14)}
+.fmt .kind{font:600 10.5px/1 var(--b);letter-spacing:.18em;text-transform:uppercase;color:var(--red)}
+.fmt h3{margin-top:10px;font:400 clamp(24px,6vw,36px)/1.1 var(--h)}
+.fmt .d{margin-top:10px;color:var(--mute);font-size:14px;max-width:62ch}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);border-bottom:1px solid var(--line)}
+.stats div{padding:14px 12px}.stats div+div{border-left:1px solid var(--line)}
+.stats span{display:block;font:600 9.5px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.stats b{display:block;margin-top:7px;font:700 14px/1.3 var(--s)}
+.agenda{list-style:none;padding:8px 20px 20px}
+.agenda li{position:relative;display:grid;grid-template-columns:86px 1fr;gap:14px;padding:16px 0 16px;border-bottom:1px solid var(--line)}
+.agenda li:last-child{border-bottom:0}
+.agenda time{font:400 16px/1.2 var(--h);white-space:nowrap;color:var(--neon2);font-variant-numeric:tabular-nums}
+.agenda li h4{font:700 16px/1.3 var(--s);letter-spacing:.01em}
+.agenda li h4 small{margin-left:8px;font:600 10px/1 var(--b);letter-spacing:.12em;color:var(--dim);text-transform:uppercase}
+.agenda li p{margin-top:3px;color:var(--mute);font-size:13px}
+.agenda li::before{content:"";position:absolute;left:-20px;top:20px;width:3px;height:16px;background:var(--neon)}
+.fine{margin-top:14px;font-size:12px;color:var(--dim);max-width:72ch}
+
+/* bracket torneo */
+.bracket{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;align-items:center;padding:18px;border:1px solid var(--line);background:var(--panel)}
+.bracket .col{display:grid;gap:8px}
+.bracket .t{height:22px;border:1px solid rgba(36,154,255,.35);background:rgba(0,98,186,.15);font:600 9.5px/20px var(--b);letter-spacing:.1em;text-align:center;color:var(--mute);text-transform:uppercase}
+.bracket .t.w{border-color:var(--red);background:rgba(234,0,70,.18);color:#fff}
+.bracket .cap{grid-column:1/-1;display:grid;grid-template-columns:repeat(4,1fr);gap:10px;font:600 9px/1 var(--b);letter-spacing:.14em;color:var(--dim);text-transform:uppercase;text-align:center}
+.trophy{display:grid;place-items:center;gap:6px;font:400 13px/1 var(--h);color:#fff;text-align:center}
+.trophy svg{width:36px;height:36px;stroke:var(--red)}
+
+/* misiones */
+.games{margin-top:30px;display:grid;grid-template-columns:1fr;gap:16px}
+.game{background:var(--panel);border:1px solid var(--line);overflow:hidden;transition:border-color .3s}
+.game:hover{border-color:rgba(36,154,255,.6)}
+.game .art{position:relative;aspect-ratio:16/9;overflow:hidden;background:#000}
+.game .art img{width:100%;height:100%;object-fit:cover;transition:transform .8s ease}
+.game:hover .art img{transform:scale(1.04)}
+.game .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 50%,rgba(16,18,31,.95))}
+.game .n{position:absolute;z-index:1;top:12px;left:12px;font:600 10.5px/1 var(--b);letter-spacing:.16em;background:rgba(12,12,22,.82);border-left:2px solid var(--neon2);padding:6px 8px}
+.game .body{padding:2px 18px 20px;margin-top:-22px;position:relative}
+.game h3{font:400 21px/1.15 var(--h)}
+.game .g{margin-top:6px;font:700 13px/1.3 var(--s);color:var(--neon2)}
+.game .x{margin-top:8px;color:var(--mute);font-size:13.5px;line-height:1.65}
+
+/* logística */
+.logi{margin-top:30px;display:grid;grid-template-columns:1fr;gap:12px;counter-reset:p}
+.logi li{list-style:none;display:grid;grid-template-columns:48px 1fr;gap:12px;padding:18px 16px;border:1px solid var(--line);background:rgba(16,18,31,.7)}
+.logi li::before{counter-increment:p;content:"0" counter(p);font:400 26px/1 var(--h);color:var(--neon2);padding-top:2px}
+.logi h3{font:700 16.5px/1.3 var(--s);letter-spacing:.01em}
+.logi p{margin-top:4px;color:var(--mute);font-size:13.5px}
+.health{margin-top:16px;display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-left:3px solid var(--red);background:linear-gradient(90deg,rgba(234,0,70,.12),transparent);font-size:12.5px;color:var(--mute)}
+.health b{color:#fff;font-weight:600}
+.where{margin-top:16px;display:grid;gap:14px;padding:18px 16px;border:1px solid var(--line);background:var(--panel2)}
+.where dt{font:600 10px/1.4 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+.where dd{font:700 17px/1.35 var(--s)}
+.where dd small{display:block;font:400 13px/1.5 var(--b);color:var(--mute);letter-spacing:-.02em}
+.where .acts{display:grid;gap:10px}
+
+/* FAQ */
+.faq{margin-top:26px;display:grid;gap:10px;max-width:820px}
+.faq details{border:1px solid var(--line);background:var(--panel)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:16px;align-items:center;padding:16px 18px;font:700 15.5px/1.35 var(--s);letter-spacing:.01em}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:400 22px/1 var(--h);color:var(--neon2);transition:transform .25s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{padding:0 18px 16px;color:var(--mute);font-size:13.5px}
+
+/* RSVP */
+.rsvp{overflow:hidden;isolation:isolate;padding:88px 0;border-top:1px solid var(--line)}
+.rsvp .bg{position:absolute;inset:0;z-index:-2;background:url(img/bg-rsvp.webp) center/cover no-repeat;opacity:.38;filter:saturate(.6)}
+.rsvp::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,var(--black),rgba(12,12,22,.7) 40%,rgba(12,12,22,.85) 75%,var(--black)),radial-gradient(60% 50% at 50% 50%,rgba(0,98,186,.3),transparent 70%)}
+.rsvp .wrap{text-align:center;display:flex;flex-direction:column;align-items:center}
+.rsvp .lbl{justify-content:center}
+.rsvp .lead{margin-inline:auto}
+.rsvp .acts{margin-top:28px;display:grid;gap:12px;width:100%;max-width:420px}
+.rsvp .btn.pri{min-height:60px;font-size:14px}
+.rsvp .tip{margin-top:16px;font-size:12px;color:var(--dim)}
+.rsvp .tip code{font:inherit;color:#fff;background:rgba(255,255,255,.08);padding:1px 6px;white-space:nowrap}
+
+footer{border-top:1px solid var(--line);padding:40px 0 calc(40px + env(safe-area-inset-bottom));text-align:center;color:var(--dim);font-size:12px;letter-spacing:.04em}
+footer img{width:72px;margin:0 auto 14px}
+footer p+p{margin-top:4px}
+footer .org{display:inline-flex;gap:8px;align-items:center;margin-top:18px;padding:8px 12px;border:1px solid var(--line);font-size:11.5px;color:var(--mute);letter-spacing:.06em}
+footer .org:hover{color:#fff;border-color:var(--neon2)}
+footer .org svg{width:14px;height:14px}
+
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease var(--d,0s),transform .7s cubic-bezier(.2,.7,.2,1) var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+@media (min-width:760px){
+  .top .logo{width:180px}
+  .hero{min-height:min(100vh - 81px,880px)}
+  .hero .bg{object-position:80% 30%}
+  .hero::before{background:linear-gradient(90deg,rgba(12,12,22,.95) 0%,rgba(12,12,22,.75) 35%,rgba(12,12,22,.1) 65%),linear-gradient(180deg,transparent 60%,var(--black) 100%),linear-gradient(0deg,rgba(0,98,186,.2),rgba(0,98,186,.2))}
+  .hero .in{padding-bottom:64px;max-width:min(1120px,100% - 40px)}
+  .hud{inset:22px}
+  .squadbar .wrap{grid-template-columns:repeat(4,1fr)}
+  .squadbar div:nth-child(odd){border-left:1px solid var(--line)}.squadbar div:first-child{border-left:0}
+  section{padding:100px 0}
+  .count-sec{padding:84px 0 12px}
+  .count div{padding:26px 8px 20px}
+  .skills{grid-template-columns:repeat(2,1fr);gap:16px}
+  .fmt .hd{padding:28px 32px 22px}
+  .stats div{padding:16px 32px}
+  .agenda{padding:10px 32px 26px}
+  .agenda li{grid-template-columns:110px 1fr;gap:20px}
+  .agenda li::before{left:-32px}
+  .games{grid-template-columns:repeat(2,1fr);gap:20px}
+  .logi{grid-template-columns:repeat(2,1fr);gap:16px}
+  .where{grid-template-columns:1fr auto;align-items:center;padding:22px 26px}
+  .where .acts{grid-template-columns:auto auto}
+  .rsvp{padding:120px 0}
+}
+@media (min-width:1080px){
+  .skills{grid-template-columns:repeat(4,1fr)}
+  .sk{grid-template-columns:1fr;align-items:start}
+  .games{grid-template-columns:repeat(3,1fr)}
+  .games.g4{grid-template-columns:repeat(4,1fr)}
+  .logi{grid-template-columns:repeat(4,1fr)}
+  .logi li{grid-template-columns:1fr}
+}
+@media (max-width:370px){
+  .top .logo{width:126px}.tag span{display:none}
+  .btn{padding:0 16px;font-size:12px}
+  .stats b{font-size:12.5px}
+  .agenda li{grid-template-columns:76px 1fr;gap:10px}.agenda time{font-size:14px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+  .sweep{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="img/aw-logo-horizontal-white.png" alt="Another World" width="1200" height="178">
+    <div class="tag"><i aria-hidden="true"></i><span id="evTag">Team Building</span></div>
+  </div>
+</header>
+
+<section class="hero" aria-labelledby="ttl" style="padding:0">
+  <picture><source media="(min-aspect-ratio: 1/1)" srcset="img/hero-16x9.webp"><img class="bg" src="img/hero-3x4.webp" alt="" aria-hidden="true" fetchpriority="high" width="900" height="1200"></picture>
+  <div class="grid" aria-hidden="true"></div>
+  <div class="sweep" aria-hidden="true"></div>
+  <div class="hud" aria-hidden="true"><i></i><i></i><i></i><i></i>
+    <div class="tl"><span class="dot"></span><span>Escuadra en línea</span></div>
+    <div class="tr"><span id="clock">--:--:--</span><br><span style="opacity:.6">Sector JRZ</span></div>
+  </div>
+  <div class="wrap in">
+    <span class="inv"><b>Invitación</b> · <span id="invTxt">Team Building</span></span>
+    <p class="emp" id="emp" hidden></p>
+    <h1 id="ttl"><span>Operación</span><span class="b2">Equipo</span></h1>
+    <p class="sub">Formato: <b id="fmtName">Escape Room Challenge</b></p>
+    <div class="meta">
+      <span class="chip"><em>Día</em><span id="dateShort"></span></span>
+      <span class="chip"><em>Hora</em><span id="timeShort"></span></span>
+      <span class="chip"><em>Sede</em><span id="placeShort"></span></span>
+    </div>
+    <div class="cta">
+      <a class="btn pri" href="#rsvp">Confirmar asistencia</a>
+      <a class="btn ghost" href="#mision">Ver la misión</a>
+    </div>
+  </div>
+</section>
+
+<div class="squadbar" aria-label="Resumen del evento">
+  <div class="wrap">
+    <div><span>Formato</span><b id="sbFmt">—</b></div>
+    <div><span>Duración</span><b id="sbDur">—</b></div>
+    <div><span>Escuadras</span><b id="sbModo">—</b></div>
+    <div><span>Cupo</span><b id="sbCupo">—</b></div>
+  </div>
+</div>
+
+<main>
+  <section class="count-sec" aria-labelledby="ct">
+    <div class="wrap">
+      <p class="lbl rv" id="ct">Tiempo para el despliegue</p>
+      <div class="count rv" id="count" role="timer" aria-live="off">
+        <div><b id="cd-d">00</b><span>Días</span></div>
+        <div><b id="cd-h">00</b><span>Horas</span></div>
+        <div><b id="cd-m">00</b><span>Min</span></div>
+        <div><b id="cd-s">00</b><span>Seg</span></div>
+      </div>
+      <p class="count-note rv">Hora local de Cd. Juárez</p>
+    </div>
+  </section>
+
+  <section id="briefing" aria-labelledby="bt">
+    <div class="wrap">
+      <p class="lbl rv">Briefing</p>
+      <h2 class="rv" id="bt">Aquí los cargos no importan</h2>
+      <p class="lead rv" id="briefLead">Dejamos la oficina por unas horas para entrar juntos a otro mundo: realidad virtual con movimiento libre y sin cables, retos en equipo y un solo objetivo. No necesitas experiencia: solo ganas de colaborar y divertirte.</p>
+      <div class="skills" id="skills">
+        <div class="sk rv" data-k="comunicacion"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><path d="M4 5h16v10H9l-5 4z"/></svg></div><div><h3>Comunicación</h3><p>Dentro del visor solo se avanza hablando claro y escuchando.</p><div class="xp">XP <span class="bar"><s></s></span><em></em></div></div></div>
+        <div class="sk rv" data-k="liderazgo" style="--d:.06s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><path d="M5 20V5l7 4 7-4v15"/><path d="M5 20h14"/></svg></div><div><h3>Liderazgo</h3><p>Alguien tiene que marcar la ruta… y puede ser quien menos imaginas.</p><div class="xp">XP <span class="bar"><s></s></span><em></em></div></div></div>
+        <div class="sk rv" data-k="equipo" style="--d:.12s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><circle cx="8" cy="8" r="3"/><circle cx="16" cy="8" r="3"/><path d="M2 20c0-3 3-5 6-5s6 2 6 5M12 20c0-3 2-5 4-5 3 0 6 2 6 5"/></svg></div><div><h3>Trabajo en equipo</h3><p>Cubrirse, repartir tareas y celebrar juntos cada objetivo.</p><div class="xp">XP <span class="bar"><s></s></span><em></em></div></div></div>
+        <div class="sk rv" data-k="decisiones" style="--d:.18s"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 7v5l3 2"/></svg></div><div><h3>Toma de decisiones</h3><p>Reloj corriendo, información incompleta: decidan rápido y en equipo.</p><div class="xp">XP <span class="bar"><s></s></span><em></em></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="mision" aria-labelledby="mt" style="padding-top:12px">
+    <div class="wrap">
+      <p class="lbl rv">Plan de misión</p>
+      <h2 class="rv" id="mt">Agenda del evento</h2>
+      <div class="fmt rv">
+        <div class="hd">
+          <p class="kind" id="fKind">Team Building</p>
+          <h3 id="fName">Escape Room Challenge</h3>
+          <p class="d" id="fDesc"></p>
+        </div>
+        <div class="stats">
+          <div><span>Duración</span><b id="fDur"></b></div>
+          <div><span>Cupo</span><b id="fCupo"></b></div>
+          <div><span>Modo</span><b id="fModo"></b></div>
+        </div>
+        <ol class="agenda" id="agenda"></ol>
+      </div>
+      <div class="bracket rv" id="bracket" hidden aria-label="Llave del torneo: 8 equipos, semifinales y final">
+        <div class="col"><div class="t">Eq 1</div><div class="t">Eq 2</div><div class="t">Eq 3</div><div class="t">Eq 4</div><div class="t">Eq 5</div><div class="t">Eq 6</div><div class="t">Eq 7</div><div class="t">Eq 8</div></div>
+        <div class="col"><div class="t">Gana</div><div class="t">Gana</div><div class="t">Gana</div><div class="t">Gana</div></div>
+        <div class="col"><div class="t w">Final</div><div class="t w">Final</div></div>
+        <div class="trophy"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" aria-hidden="true"><path d="M8 4h8v5a4 4 0 0 1-8 0z"/><path d="M8 6H4c0 3 2 4 4 4M16 6h4c0 3-2 4-4 4M12 13v4M8 20h8"/></svg>Podio<br><span style="font:600 9px/1.3 var(--b);letter-spacing:.12em;color:var(--dim)">1.º y 2.º lugar</span></div>
+        <div class="cap"><span>Eliminatorias</span><span>Semifinales</span><span>Gran final</span><span>Premiación</span></div>
+      </div>
+      <p class="fine rv" id="agendaNote">Horarios orientativos: el equipo de Another World coordina los tiempos y las rotaciones el día del evento.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="gt" style="padding-top:12px">
+    <div class="wrap">
+      <p class="lbl rv">Mundos</p>
+      <h2 class="rv" id="gt">Misiones del día</h2>
+      <p class="lead rv" id="gLead">Experiencias de realidad virtual pensadas para jugar en equipo.</p>
+      <div class="games" id="games"></div>
+      <p class="fine rv" id="gNote">La selección final de juegos se confirma con Another World según el formato y el grupo.</p>
+    </div>
+  </section>
+
+  <section aria-labelledby="lt" style="padding-top:12px">
+    <div class="wrap">
+      <p class="lbl rv">Logística</p>
+      <h2 class="rv" id="lt">Antes de llegar</h2>
+      <dl class="where rv">
+        <div><dt>Punto de reunión</dt><dd><span id="place"></span><small id="addr"></small></dd>
+          <dt style="margin-top:12px">Fecha y hora</dt><dd><span id="date"></span><small id="time"></small></dd></div>
+        <div class="acts">
+          <a class="btn pri" id="maps" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>Cómo llegar</a>
+          <button class="btn ghost" id="ics" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="1"/><path d="M3 10h18M8 3v4M16 3v4"/></svg>Agregar al calendario</button>
+        </div>
+      </dl>
+      <ol class="logi">
+        <li class="rv"><div><h3>Llega 15 minutos antes</h3><p>Registro, briefing de seguridad y ajuste del visor antes de iniciar.</p></div></li>
+        <li class="rv" style="--d:.06s"><div><h3>Ropa cómoda y calzado cerrado</h3><p>Te vas a mover, agachar y girar. Evita sandalias y tacones.</p></div></li>
+        <li class="rv" style="--d:.12s"><div><h3>Sin alcohol</h3><p>Por seguridad, no se permite consumir alcohol antes ni durante la experiencia.</p></div></li>
+        <li class="rv" style="--d:.18s"><div><h3>Sigue al game master</h3><p>El equipo de Another World guía cada sesión de principio a fin.</p></div></li>
+      </ol>
+      <p class="health rv" role="note"><span><b>Aviso de salud:</b> la realidad virtual no se recomienda para personas con condiciones cardíacas, presión alta, epilepsia o fotosensibilidad, ni durante el embarazo. Si es tu caso, puedes acompañar y apoyar a tu equipo desde fuera de la arena.</span></p>
+    </div>
+  </section>
+
+  <section aria-labelledby="ft" style="padding-top:12px">
+    <div class="wrap">
+      <p class="lbl rv">Preguntas</p>
+      <h2 class="rv" id="ft">Preguntas frecuentes</h2>
+      <div class="faq rv">
+        <details><summary>¿Necesito experiencia con videojuegos o VR?</summary><p>No. Antes de jugar hay un briefing y el game master te acompaña en todo momento. Los controles son sencillos y la mayoría de los participantes juega VR por primera vez.</p></details>
+        <details><summary>¿Se marea uno?</summary><p>En la arena caminas libremente, así que el movimiento que ves coincide con el que haces y el mareo es poco común. Si en algún momento te sientes incómodo, avisa al game master y haz una pausa.</p></details>
+        <details><summary>¿Qué llevo?</summary><p>Ropa cómoda, calzado cerrado y buena actitud. El equipo VR lo pone Another World. Si usas lentes, llévalos y coméntalo en el briefing.</p></details>
+        <details><summary>¿Y si no quiero jugar?</summary><p>Puedes acompañar a tu equipo, apoyar y convivir: la experiencia también se disfruta desde fuera.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="rsvp" id="rsvp" aria-labelledby="rt">
+    <div class="bg" aria-hidden="true"></div>
+    <div class="wrap">
+      <p class="lbl rv">Confirmación</p>
+      <h2 class="rv" id="rt">¿Te unes a la escuadra?</h2>
+      <p class="lead rv" id="rsvpLead">Confirma por WhatsApp para asignarte a un equipo.</p>
+      <div class="acts rv">
+        <a class="btn pri" id="rsvpBtn" href="#" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.4.1-.6.3-.2.2-.8.8-.8 2s.8 2.3.9 2.5c.1.2 1.6 2.5 4 3.5 1.5.6 2.1.7 2.8.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z"/></svg>
+          Confirmar por WhatsApp</a>
+        <button class="btn ghost" id="ics2" type="button">Agregar al calendario</button>
+      </div>
+      <p class="tip rv">El mensaje ya va escrito: solo completa <code>Soy __ del área __</code>.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <img src="img/aw-logo-sign.png" alt="Another World" width="550" height="282" loading="lazy">
+  <p>Another World VR Arena · Juárez</p>
+  <a class="org" id="orgCta" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>Organiza el evento de tu empresa con Another World</a>
+</footer>
+
+<script>
+(function(){
+  /* ---- 1. Config + parámetros de URL ---- */
+  const C = Object.assign({}, CONFIG);
+  const q = new URLSearchParams(location.search);
+  const map = {empresa:"empresa",formato:"formato",evento:"evento",fecha:"fecha",inicio:"horaInicio",fin:"horaFin",tz:"utcOffset",sede:"sede",lugar:"lugar",dir:"direccion",organizador:"organizador",wa:"whatsapp",msg:"mensaje"};
+  for (const [p,k] of Object.entries(map)) if (q.has(p)) { const v=q.get(p).trim().slice(0,200); if (v || p==="empresa" || p==="organizador") C[k]=v; }
+  if (q.has("hora")) { const h=q.get("hora").split(/[-–a ]+/).filter(Boolean); if(h[0]) C.horaInicio=h[0]; if(h[1]) C.horaFin=h[1]; }
+  C.formato = String(C.formato).toLowerCase().replace(/[^a-z0-9]/g,"");
+  const alias = {play4fun:"play4fun",play:"play4fun",fun:"play4fun",escape:"escape",escaperoom:"escape",bandera:"bandera",capturalabandera:"bandera",ctf:"bandera",torneo:"torneo",tournament:"torneo"};
+  C.formato = alias[C.formato] || "escape";
+  const F = FORMATOS[C.formato];
+  C.whatsapp = String(C.whatsapp).replace(/\D/g,"") || CONFIG.whatsapp;
+  C.sede = String(C.sede).toLowerCase()==="empresa" ? "empresa" : "arena";
+  if (C.sede==="arena") { if(!C.lugar) C.lugar=ARENA.lugar; if(!C.direccion) C.direccion=ARENA.direccion; }
+  else { if(!C.lugar) C.lugar="En nuestras instalaciones"; }
+  if (!C.evento) C.evento = "Team Building";
+  const isHM = s => /^\d{1,2}:\d{2}$/.test(s);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(C.fecha)) C.fecha = CONFIG.fecha;
+  if (!isHM(C.horaInicio)) C.horaInicio = CONFIG.horaInicio;
+  if (!isHM(C.horaFin)) C.horaFin = CONFIG.horaFin;
+  if (!/^[+-]\d{2}:\d{2}$/.test(C.utcOffset)) C.utcOffset = "auto";
+  if (C.utcOffset === "auto") {
+    const [y,mo,da] = C.fecha.split("-").map(Number);
+    const nthSun = (m,n) => { const d=new Date(Date.UTC(y,m,1)); return 1 + (7 - d.getUTCDay())%7 + 7*(n-1); };
+    const v = mo*100+da, a = 300+nthSun(2,2), b = 1100+nthSun(10,1);
+    C.utcOffset = (v>=a && v<b) ? "-06:00" : "-07:00";
+  }
+
+  /* ---- 2. Formatos de fecha/hora ---- */
+  const [Y,M,D] = C.fecha.split("-").map(Number);
+  const fechaTxt = new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).format(new Date(Date.UTC(Y,M-1,D,12)));
+  const hm = s => { let [h,m]=s.split(":").map(Number); const ap=h>=12?"pm":"am"; h=h%12||12; return h+":"+String(m).padStart(2,"0")+" "+ap; };
+  const ini = hm(C.horaInicio), fin = hm(C.horaFin);
+  const horaTxt = ini.slice(-2)===fin.slice(-2) ? ini.slice(0,-3)+" a "+fin : ini+" a "+fin;
+  const toDate = t => new Date(C.fecha+"T"+t.padStart(5,"0")+":00"+C.utcOffset);
+  const start = toDate(C.horaInicio); let end = toDate(C.horaFin);
+  if (end <= start) end = new Date(end.getTime()+864e5);
+  const $ = id => document.getElementById(id);
+  const cap = s => s.charAt(0).toUpperCase()+s.slice(1);
+  const evCap = cap(C.evento);
+  const ft = fechaTxt.replace(/,/g,""), FT = cap(ft);
+
+  /* ---- 3. Contenido (solo textContent) ---- */
+  if (C.empresa) { $("emp").textContent = C.empresa + " te invita a"; $("emp").hidden = false; }
+  $("evTag").textContent = evCap; $("invTxt").textContent = evCap;
+  $("fmtName").textContent = F.nombre;
+  $("dateShort").textContent = FT; $("timeShort").textContent = horaTxt;
+  $("placeShort").textContent = C.sede==="arena" ? "Another World VR Arena" : C.lugar;
+  $("sbFmt").textContent = F.nombre; $("sbDur").textContent = F.dur; $("sbModo").textContent = F.modo; $("sbCupo").textContent = F.cupo;
+  $("fKind").textContent = F.tag; $("fName").textContent = F.nombre; $("fDesc").textContent = F.desc;
+  $("fDur").textContent = F.dur; $("fCupo").textContent = F.cupo; $("fModo").textContent = F.modo;
+  $("place").textContent = C.lugar; $("addr").textContent = C.direccion || "";
+  $("date").textContent = FT; $("time").textContent = horaTxt + " · llega 15 min antes";
+  document.title = "Operación Equipo" + (C.empresa ? " · " + C.empresa : "") + " · " + evCap;
+
+  // XP por habilidad según formato
+  document.querySelectorAll(".sk").forEach(el => {
+    const n = F.hab[el.dataset.k] || 3, pct = n*20;
+    el.querySelector(".bar s").style.setProperty("--w", pct+"%");
+    el.querySelector(".xp em").textContent = n + "/5";
+    el.querySelector(".xp").setAttribute("aria-label", "Nivel de entrenamiento " + n + " de 5");
+  });
+
+  // Agenda con horas reales calculadas desde la hora de inicio
+  const ag = $("agenda");
+  const total = Math.round((end - start)/60000);
+  F.agenda.forEach((it,i) => {
+    const nxt = F.agenda[i+1] ? F.agenda[i+1].min : null;
+    const t = new Date(start.getTime() + it.min*60000);
+    const li = document.createElement("li");
+    li.innerHTML = '<time></time><div><h4></h4><p></p></div>';
+    const loc = new Date(t.getTime() + (parseInt(C.utcOffset)*60 + (C.utcOffset[0]==="-"?-1:1)*parseInt(C.utcOffset.slice(4)))*60000);
+    const hh = String(loc.getUTCHours()).padStart(2,"0")+":"+String(loc.getUTCMinutes()).padStart(2,"0");
+    li.querySelector("time").textContent = hm(hh);
+    const dur = (nxt!==null ? nxt : Math.max(total, it.min+15)) - it.min;
+    const h4 = li.querySelector("h4"); h4.textContent = it.t;
+    if (dur>0 && it.min < total) { const sm=document.createElement("small"); sm.textContent = dur>=60 && dur%60===0 ? (dur/60)+" h" : dur+" min"; h4.appendChild(sm); }
+    li.querySelector("p").textContent = it.d;
+    if (it.min < total) ag.appendChild(li);
+  });
+  if (F.bracket) $("bracket").hidden = false;
+
+  // Misiones
+  const g = $("games"); if (F.misiones.length===4) g.classList.add("g4");
+  $("gLead").textContent = {play4fun:"Variedad para todos los gustos: rompehielos, cooperativos y duelos amistosos.",
+    escape:"Retos cooperativos: el equipo completo escapa… o nadie lo hace.",
+    bandera:"Shooter y Star Base por equipos: ataquen, defiendan y retengan la bandera.",
+    torneo:"Duelos rápidos de Shooter y Kernel para eliminatorias, semifinales y la gran final."}[C.formato];
+  if (F.nota) $("gNote").textContent = F.nota + " La selección final se confirma con Another World.";
+  F.misiones.forEach((m,i) => {
+    const el = document.createElement("article"); el.className = "game rv"; el.style.setProperty("--d",((i%3)*.08)+"s");
+    el.innerHTML = '<div class="art"><span class="n"></span><img loading="lazy" width="800" height="500" alt=""></div><div class="body"><h3></h3><p class="g"></p><p class="x"></p></div>';
+    el.querySelector(".n").textContent = "M-" + String(i+1).padStart(2,"0");
+    const im = el.querySelector("img"); im.src = m.img; im.alt = m.t;
+    el.querySelector("h3").textContent = m.t; el.querySelector(".g").textContent = m.g; el.querySelector(".x").textContent = m.d;
+    g.appendChild(el);
+  });
+
+  /* ---- 4. Enlaces ---- */
+  if (C.direccion) $("maps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent((C.sede==="arena" ? C.lugar+", " : "") + C.direccion);
+  else $("maps").hidden = true;
+  const orgName = C.organizador ? " " + C.organizador : "";
+  const msg = C.mensaje.replace(/\{organizador\}/g, orgName).replace(/\{empresa\}/g, C.empresa ? " de " + C.empresa : "")
+    .replace(/\{evento\}/g, evCap).replace(/\{fecha\}/g, fechaTxt).replace(/\{hora\}/g, horaTxt).replace(/\{formato\}/g, F.nombre);
+  $("rsvpBtn").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg);
+  if (C.organizador) $("rsvpLead").textContent = "Confirma por WhatsApp con " + C.organizador + " para asignarte a un equipo.";
+  $("orgCta").href = "https://wa.me/" + ARENA.wa + "?text=" + encodeURIComponent("¡Hola! Quiero información para organizar un evento de empresa (Team Building) con Another World.");
+  const ics = () => {
+    const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+    const esc = s => String(s).replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n");
+    const loc = C.direccion ? C.lugar + ", " + C.direccion : C.lugar + (C.empresa ? " (" + C.empresa + ")" : "");
+    const body = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion Team Building//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT","UID:"+f(start)+"-"+Math.random().toString(36).slice(2)+"@anotherworld-invitacion",
+      "DTSTAMP:"+f(new Date()),"DTSTART:"+f(start),"DTEND:"+f(end),
+      "SUMMARY:"+esc("Operación Equipo · " + evCap + (C.empresa ? " · " + C.empresa : "")),
+      "LOCATION:"+esc(loc),
+      "DESCRIPTION:"+esc(F.nombre + " con Another World VR. Llega 15 minutos antes. Ropa cómoda y calzado cerrado. Sin alcohol."),
+      "BEGIN:VALARM","TRIGGER:-PT2H","ACTION:DISPLAY","DESCRIPTION:Operación Equipo en 2 horas","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([body],{type:"text/calendar;charset=utf-8"}));
+    a.download = "operacion-equipo.ics"; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500);
+  };
+  $("ics").addEventListener("click", ics); $("ics2").addEventListener("click", ics);
+
+  /* ---- 5. Cuenta regresiva + reloj HUD ---- */
+  const pad = n => String(n).padStart(2,"0");
+  function tick(){
+    const now = new Date(); $("clock").textContent = pad(now.getHours())+":"+pad(now.getMinutes())+":"+pad(now.getSeconds());
+    const ms = start - now;
+    if (ms <= 0) { const c=$("count"); c.className="count done rv in"; c.textContent = now < end ? "La misión está en curso" : "Misión cumplida"; return; }
+    const s = Math.floor(ms/1000);
+    $("cd-d").textContent = pad(Math.floor(s/86400)); $("cd-h").textContent = pad(Math.floor(s%86400/3600));
+    $("cd-m").textContent = pad(Math.floor(s%3600/60)); $("cd-s").textContent = pad(s%60);
+  }
+  tick(); setInterval(tick,1000);
+
+  /* ---- 6. Hero responsivo y revelado ---- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rv = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) rv.forEach(e=>e.classList.add("in"));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -6% 0px",threshold:.06});
+    rv.forEach(e=>io.observe(e));
+  }
+})();
+</script>
+</body>
+</html>
