@@ -1,0 +1,451 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C0C16">
+<title>Invitación · Another World VR Arena</title>
+<meta name="description" content="Invitación de cumpleaños · Another World VR Arena, Juárez">
+<meta property="og:title" content="¡Estás invitado a una misión VR! · Another World">
+<meta property="og:description" content="Fiesta de cumpleaños en Another World VR Arena, Juárez.">
+<meta property="og:image" content="img/hero-desktop.webp">
+<!-- Imágenes: solo arte/capturas de juegos y logotipo oficial. Sin fotografías de personas reales. -->
+<link rel="preload" href="fonts/igra-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-code-pro-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" as="image" href="img/hero-mobile.webp" media="(max-width: 759px)">
+<link rel="preload" as="image" href="img/hero-desktop.webp" media="(min-width: 760px)">
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DEL EVENTO — edita SOLO este bloque para cada invitación
+   (mismos campos y parámetros de URL que la plantilla 1; ver README.txt)
+   ===================================================================== */
+const CONFIG = {
+  nombre:     "Gael",              // nombre del festejado
+  edad:       "8",                 // años que cumple
+  fecha:      "2026-10-29",        // AAAA-MM-DD
+  horaInicio: "17:00",             // HH:MM (24 h)
+  horaFin:    "20:00",             // HH:MM (24 h)
+  utcOffset:  "auto",              // "auto" = Cd. Juárez (MST -07:00 / MDT -06:00 con DST de EE. UU.); o fija p. ej. "-06:00"
+  whatsapp:   "5216560000000",     // PLACEHOLDER: número que recibe las confirmaciones (solo dígitos, con lada país)
+  mensaje:    "¡Hola! Confirmo asistencia a la misión de cumpleaños de {nombre} en Another World VR Arena el {fecha} ({hora}). Somos __ personas.",
+  lugar:      "Another World VR Arena",
+  direccion:  "Av. Ejército Nacional 5230, Local 9, Juárez, Chih.",
+  misiones: [
+    { titulo: "Shmooter: Forts",          genero: "Shooter PvP en equipos",  img: "img/m-shmooter-forts.webp",
+      desc: "Batallas épicas en un mundo vibrante: captura la base, destruye edificios y usa el autobús como cobertura." },
+    { titulo: "Kernel: Raven",            genero: "Shooter hiperrealista",   img: "img/m-kernel-raven.webp",
+      desc: "Equipos rivales en la obra de un rascacielos: alturas vertiginosas, escondites y táctica pura." },
+    { titulo: "Safe Night",               genero: "Supervivencia zombi",     img: "img/m-safe-night.webp",
+      desc: "Un mundo post-apocalíptico lleno de zombis. Lucha junto a tu equipo para sobrevivir hasta el amanecer." },
+    { titulo: "Ghost Tower: Ghost Mansion", genero: "Aventura · niños 6 a 12", img: "img/m-ghost-mansion.webp",
+      desc: "Cazafantasmas en una mansión abandonada llena de misterios. ¡Libérala con tu arma mágica!" }
+  ]
+};
+</script>
+<style>
+@font-face{font-family:"Igra Sans";src:url("fonts/igra-sans.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Jura";src:url("fonts/jura-bold.woff2") format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url("fonts/source-code-pro-400.woff2") format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url("fonts/source-code-pro-600.woff2") format("woff2");font-weight:600;font-display:swap}
+:root{
+  /* Paleta oficial (GuideBook Another World) */
+  --black:#0C0C16; --blue:#0062BA; --red:#EA0046; --white:#FFFFFF;
+  /* Neón oficial azul / rojo */
+  --n1:#1F5DD3; --n2:#246FFF; --n3:#249AFF; --r2:#F80C4F; --r3:#FF1E26;
+  --panel:#11111F; --line:rgba(36,154,255,.18); --muted:rgba(255,255,255,.64);
+  --title:"Igra Sans",system-ui,sans-serif; --sub:"Jura",system-ui,sans-serif; --body:"Source Code Pro",ui-monospace,Menlo,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+body{font-family:var(--body);font-size:14px;line-height:1.7;letter-spacing:-.03em;color:var(--white);background:var(--black);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+img,video{display:block;max-width:100%;height:auto}
+
+/* ---------- Barra superior: logo oficial sobre negro, con área libre ---------- */
+.topbar{position:relative;z-index:3;background:var(--black);display:flex;justify-content:center;padding:28px 32px 26px}
+.topbar img{width:200px;height:auto}
+
+/* ---------- Hero ---------- */
+.hero{position:relative;min-height:calc(100svh - 82px);max-height:980px;display:flex;align-items:flex-end;overflow:hidden;isolation:isolate}
+.hero picture,.hero .ph{position:absolute;inset:-6% 0 0 0;z-index:-3}
+.hero .ph img{width:100%;height:100%;object-fit:cover;object-position:50% 30%;transform:scale(1.06);animation:kb 22s ease-out both;will-change:transform}
+@keyframes kb{from{transform:scale(1.14)}to{transform:scale(1.04)}}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;
+  background:linear-gradient(180deg,rgba(12,12,22,.9) 0%,rgba(12,12,22,.15) 22%,rgba(12,12,22,.1) 42%,rgba(12,12,22,.82) 70%,var(--black) 96%),
+             radial-gradient(80% 50% at 50% 100%,rgba(0,98,186,.35),transparent 70%)}
+.scan{position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.35;
+  background:repeating-linear-gradient(180deg,rgba(255,255,255,.05) 0 1px,transparent 1px 4px)}
+.scan::after{content:"";position:absolute;left:0;right:0;height:22%;top:-22%;
+  background:linear-gradient(180deg,rgba(36,154,255,0),rgba(36,154,255,.10) 50%,rgba(36,154,255,0));animation:sweep 7s linear infinite}
+@keyframes sweep{to{top:110%}}
+.hero-in{width:100%;max-width:1180px;margin:0 auto;padding:0 22px 34px}
+.chip{display:inline-flex;align-items:center;gap:10px;font-family:var(--sub);font-weight:700;font-size:12px;letter-spacing:.16em;text-transform:uppercase;
+  padding:8px 14px;border:1px solid rgba(36,154,255,.55);border-radius:999px;background:rgba(12,12,22,.55);
+  box-shadow:0 0 18px rgba(36,111,255,.35),inset 0 0 12px rgba(36,111,255,.18);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.chip i{width:7px;height:7px;border-radius:50%;background:var(--red);box-shadow:0 0 10px var(--red);animation:blink 1.6s ease-in-out infinite}
+@keyframes blink{50%{opacity:.25}}
+.hero h1{margin-top:18px;font-family:var(--title);font-weight:400;font-size:clamp(54px,19vw,148px);line-height:.95;letter-spacing:-.02em;text-transform:uppercase;word-break:break-word;text-shadow:0 4px 30px rgba(12,12,22,.6)}
+.age{margin-top:12px;display:flex;align-items:center;gap:14px;font-family:var(--sub);font-weight:700;font-size:20px;letter-spacing:.12em;text-transform:uppercase}
+.age b{font-family:var(--title);font-weight:400;font-size:64px;line-height:1;color:var(--red);letter-spacing:-.02em;text-shadow:0 0 22px rgba(234,0,70,.55)}
+.age span{display:block;font-size:13px;color:var(--muted);letter-spacing:.2em}
+.meta{margin-top:18px;display:flex;flex-wrap:wrap;gap:8px 18px;font-size:14px;color:rgba(255,255,255,.88)}
+.meta div{display:flex;align-items:center;gap:8px}
+.meta svg{width:16px;height:16px;stroke:var(--n3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.hero .go{margin-top:24px}
+
+/* ---------- Línea de neón (elemento gráfico oficial) ---------- */
+.neon{position:relative;height:16px;margin:0 auto;max-width:1180px;pointer-events:none}
+.neon::before,.neon::after,.neon i{content:"";position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);border-radius:99px}
+.neon::before{height:14px;filter:blur(14px);background:linear-gradient(90deg,rgba(12,12,22,0) 0%,rgba(31,93,211,.9) 30%,rgba(36,111,255,.8) 60%,rgba(31,93,211,.9) 90%,rgba(12,12,22,0) 100%)}
+.neon::after{height:5px;filter:blur(5px);background:linear-gradient(90deg,rgba(31,93,211,0) 0%,rgba(31,93,211,.5) 25%,#246FFF 60%,rgba(31,93,211,.5) 100%)}
+.neon i{height:1.5px;filter:blur(.4px);background:linear-gradient(90deg,rgba(36,154,255,0) 0%,rgba(36,154,255,.4) 30%,#249AFF 60%,rgba(36,154,255,.4) 85%,rgba(36,154,255,0) 100%);animation:hum 4s ease-in-out infinite}
+.neon.red::before{background:linear-gradient(90deg,rgba(12,12,22,0),rgba(234,0,70,.9) 30%,rgba(248,12,79,.8) 60%,rgba(234,0,70,.9) 90%,rgba(12,12,22,0))}
+.neon.red::after{background:linear-gradient(90deg,rgba(234,0,70,0),rgba(234,0,70,.5) 25%,#F80C4F 60%,rgba(234,0,70,.5))}
+.neon.red i{background:linear-gradient(90deg,rgba(255,30,38,0),rgba(255,30,38,.4) 30%,#FF1E26 60%,rgba(255,30,38,.4) 85%,rgba(255,30,38,0))}
+@keyframes hum{50%{opacity:.6}}
+
+/* ---------- Secciones ---------- */
+main{position:relative}
+main::before{content:"";position:absolute;inset:0;pointer-events:none;z-index:-1;
+  background:radial-gradient(60% 30% at 0% 18%,rgba(0,98,186,.22),transparent 70%),radial-gradient(50% 25% at 100% 55%,rgba(0,98,186,.18),transparent 70%),radial-gradient(50% 20% at 10% 92%,rgba(234,0,70,.10),transparent 70%)}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+.sec{padding:56px 0 8px}
+.label{display:flex;align-items:center;gap:12px;font-family:var(--sub);font-weight:700;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--n3)}
+.label::before{content:attr(data-n);font-family:var(--body);font-weight:600;font-size:11px;letter-spacing:.06em;color:var(--red);border:1px solid rgba(234,0,70,.55);border-radius:6px;padding:1px 6px}
+.label::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(36,154,255,.5),transparent)}
+h2{margin-top:14px;font-family:var(--title);font-weight:400;font-size:clamp(30px,8.6vw,56px);line-height:1.12;letter-spacing:0}
+h2 em{font-style:normal;color:var(--red)}
+.lead{margin-top:10px;color:var(--muted);max-width:56ch}
+
+.panel{position:relative;background:linear-gradient(180deg,rgba(0,98,186,.10),rgba(17,17,31,.9));border:1px solid var(--line);border-radius:18px;padding:22px}
+.panel.glow{box-shadow:0 0 0 1px rgba(36,111,255,.08),0 0 40px rgba(31,93,211,.18)}
+
+/* Fecha + cuenta regresiva */
+.when-grid{margin-top:24px;display:grid;gap:16px}
+.when .k{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--n3);margin-bottom:6px}
+.when .d{font-family:var(--sub);font-weight:700;font-size:22px;line-height:1.25;letter-spacing:.02em}
+.when .t{margin-top:4px;color:var(--muted);font-size:15px}
+.count{margin-top:10px;display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.count div{border:1px solid rgba(36,154,255,.28);border-radius:12px;padding:12px 0 8px;text-align:center;background:rgba(12,12,22,.7);box-shadow:inset 0 0 18px rgba(36,111,255,.12)}
+.count b{display:block;font-family:var(--title);font-weight:400;font-size:30px;line-height:1.1;font-variant-numeric:tabular-nums;color:var(--white);text-shadow:0 0 14px rgba(36,154,255,.55)}
+.count span{font-size:10.5px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase}
+.count.done{display:block;text-align:center;font-family:var(--sub);font-weight:700;font-size:16px;letter-spacing:.12em;color:var(--n3);padding:12px 0}
+
+/* Video de bienvenida */
+.screen{position:relative;border-radius:18px;overflow:hidden;background:var(--black);border:1px solid rgba(36,154,255,.25);box-shadow:0 0 50px rgba(31,93,211,.22)}
+.screen video,.screen img{width:100%;aspect-ratio:16/9;object-fit:cover;background:var(--black)}
+.screen figcaption{display:flex;justify-content:space-between;gap:10px;padding:10px 14px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);border-top:1px solid rgba(36,154,255,.18);background:rgba(12,12,22,.9)}
+.screen figcaption b{color:var(--red);font-weight:600}
+.rec{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--red);margin-right:6px;vertical-align:1px;animation:blink 1.6s ease-in-out infinite}
+
+/* Misiones */
+.games{margin-top:26px;display:grid;gap:16px}
+.game{position:relative;border-radius:18px;overflow:hidden;background:var(--panel);border:1px solid var(--line);transition:transform .45s cubic-bezier(.2,.7,.2,1),border-color .45s,box-shadow .45s}
+.game:hover{transform:translateY(-4px);border-color:rgba(36,154,255,.55);box-shadow:0 0 40px rgba(31,93,211,.3)}
+.game .art{position:relative;aspect-ratio:16/10;overflow:hidden}
+.game .art img{width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.game:hover .art img{transform:scale(1.05)}
+.game .art::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 45%,rgba(17,17,31,.95) 100%)}
+.game .n{position:absolute;z-index:1;top:12px;left:12px;font-family:var(--body);font-weight:600;font-size:11px;letter-spacing:.08em;padding:3px 8px;border-radius:6px;background:rgba(12,12,22,.8);border:1px solid rgba(234,0,70,.6);color:var(--white)}
+.game .body{position:relative;padding:0 18px 20px;margin-top:-26px}
+.game h3{font-family:var(--title);font-weight:400;font-size:24px;line-height:1.2}
+.game .g{margin-top:6px;font-family:var(--sub);font-weight:700;font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--n3)}
+.game p{margin-top:10px;font-size:13px;line-height:1.65;color:var(--muted)}
+
+/* Tira de fotos */
+.strip{margin:26px -22px 0;padding:0 22px 6px;display:grid;grid-auto-flow:column;grid-auto-columns:78%;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none}
+.strip::-webkit-scrollbar{display:none}
+.strip figure{scroll-snap-align:start;position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--line)}
+.strip img{width:100%;aspect-ratio:4/3;object-fit:cover}
+.strip figcaption{position:absolute;left:10px;bottom:10px;font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;padding:3px 8px;border-radius:6px;background:rgba(12,12,22,.78)}
+
+/* Instrucciones + lugar */
+.info{margin-top:24px;display:grid;gap:16px}
+.rules{list-style:none;display:grid;gap:16px}
+.rules li{display:flex;gap:14px;align-items:flex-start}
+.ic{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center;border:1px solid rgba(36,154,255,.4);background:rgba(0,98,186,.14);box-shadow:0 0 16px rgba(36,111,255,.18)}
+.ic svg{width:20px;height:20px;stroke:var(--n3);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.rules b{font-family:var(--sub);font-weight:700;font-size:16px;letter-spacing:.02em;display:block;line-height:1.3}
+.rules small{display:block;margin-top:2px;color:var(--muted);font-size:13px;line-height:1.55}
+.place .pl{font-family:var(--sub);font-weight:700;font-size:19px}
+.place .ad{margin-top:4px;color:var(--muted)}
+
+/* Botones */
+.btn{white-space:nowrap;display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:54px;padding:0 20px;border-radius:14px;cursor:pointer;border:0;
+  font-family:var(--sub);font-weight:700;font-size:16px;letter-spacing:.06em;text-transform:uppercase;transition:transform .2s ease,box-shadow .3s ease,background .3s ease}
+.btn svg{width:20px;height:20px;flex:none}
+.btn:active{transform:scale(.98)}
+@media (max-width:400px){.btn{font-size:14.5px;letter-spacing:.03em;padding:0 14px}}
+.btn.primary{color:#fff;background:var(--red);box-shadow:0 10px 34px rgba(234,0,70,.42)}
+.btn.primary:hover{background:var(--r2);box-shadow:0 12px 44px rgba(248,12,79,.6)}
+.btn.blue{color:#fff;background:rgba(0,98,186,.16);border:1px solid rgba(36,154,255,.6);box-shadow:0 0 22px rgba(36,111,255,.25),inset 0 0 14px rgba(36,111,255,.15)}
+.btn.blue:hover{background:rgba(0,98,186,.3);box-shadow:0 0 32px rgba(36,111,255,.45),inset 0 0 14px rgba(36,111,255,.2)}
+.btn.small{min-height:46px;font-size:14px;margin-top:16px}
+.hero .go{width:auto;display:inline-flex}
+
+.cta{margin-top:24px;text-align:center}
+.cta .panel{padding:30px 22px}
+.cta h2{margin-top:6px}
+.cta .ctas{margin-top:22px;display:grid;gap:12px}
+.cta .note{margin-top:14px;font-size:12px;color:var(--muted)}
+
+footer{margin-top:64px;background:var(--black);border-top:1px solid rgba(36,154,255,.14);padding:40px 22px calc(36px + env(safe-area-inset-bottom));text-align:center}
+footer img{width:72px;height:auto;margin:0 auto}
+footer p{margin-top:16px;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:rgba(255,255,255,.45)}
+
+/* ---------- Revelado ---------- */
+.rv{opacity:0;transform:translate3d(0,26px,0);transition:opacity .9s cubic-bezier(.2,.7,.2,1),transform .9s cubic-bezier(.2,.7,.2,1);transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+
+/* ---------- Escritorio ---------- */
+@media (min-width:760px){
+  .topbar{padding:34px 48px 32px}.topbar img{width:230px}
+  .hero{min-height:min(calc(100svh - 98px),860px)}
+  .hero-in{padding:0 40px 64px}
+  .hero .ph img{object-position:50% 50%}
+  .hero::before{background:linear-gradient(90deg,rgba(12,12,22,.92) 0%,rgba(12,12,22,.6) 38%,rgba(12,12,22,.05) 70%),linear-gradient(180deg,rgba(12,12,22,.75) 0%,transparent 20%,transparent 70%,var(--black) 100%)}
+  .age b{font-size:84px}
+  .wrap{padding:0 40px}
+  .sec{padding-top:88px}
+  .when-grid{grid-template-columns:1fr 1.15fr;align-items:stretch}
+  .when{display:flex;flex-direction:column;justify-content:center}
+  .games{grid-template-columns:1fr 1fr;gap:20px}
+  .strip{margin:26px 0 0;padding:0;grid-auto-flow:row;grid-template-columns:repeat(4,1fr);overflow:visible}
+  .info{grid-template-columns:1.2fr 1fr}
+  .cta .ctas{grid-template-columns:1fr 1fr;max-width:720px;margin-left:auto;margin-right:auto}
+}
+@media (min-width:1100px){ .games{grid-template-columns:repeat(4,1fr)} .game h3{font-size:22px} }
+@media (max-width:350px){ .count b{font-size:24px} .hero h1{font-size:48px} }
+
+/* ---------- Movimiento reducido ---------- */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}
+  .rv{opacity:1;transform:none}
+  .scan::after{display:none}
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <img src="img/aw-logo-horizontal-white.png" alt="Another World" width="1200" height="178">
+</header>
+
+<section class="hero" aria-label="Invitación">
+  <picture class="ph">
+    <source media="(min-width: 760px)" srcset="img/hero-desktop.webp">
+    <img src="img/hero-mobile.webp" alt="Nave espacial sobre un planeta · arte del juego Colony: Code Red" id="heroImg" fetchpriority="high">
+  </picture>
+  <div class="scan" aria-hidden="true"></div>
+  <div class="hero-in">
+    <span class="chip rv" style="--d:.1s"><i></i>Invitación · Fiesta VR</span>
+    <h1 class="rv" style="--d:.25s" id="name">¡Gael!</h1>
+    <div class="age rv" style="--d:.4s"><b id="age">8</b><div>cumple años<span>y te invita a jugar</span></div></div>
+    <div class="meta rv" style="--d:.55s">
+      <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dateShort">Jueves 29 de octubre</span></div>
+      <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="timeShort">5:00 a 8:00 pm</span></div>
+    </div>
+    <a class="btn primary go rv" style="--d:.7s" href="#confirmar">Confirmar asistencia</a>
+  </div>
+</section>
+
+<div class="neon" aria-hidden="true"><i></i></div>
+
+<main>
+  <div class="wrap">
+
+    <section class="sec">
+      <p class="label rv" data-n="01">Fecha y hora</p>
+      <h2 class="rv">La cuenta regresiva <em>ya empezó</em></h2>
+      <div class="when-grid">
+        <div class="panel glow when rv">
+          <p class="k">Día de la misión</p>
+          <p class="d" id="date">Jueves 29 de octubre</p>
+          <p class="t" id="time">5:00 a 8:00 pm</p>
+          <p class="k" style="margin-top:22px;margin-bottom:0">Faltan</p>
+          <div class="count" id="count" aria-live="polite">
+            <div><b id="cd-d">00</b><span>Días</span></div>
+            <div><b id="cd-h">00</b><span>Horas</span></div>
+            <div><b id="cd-m">00</b><span>Min</span></div>
+            <div><b id="cd-s">00</b><span>Seg</span></div>
+          </div>
+        </div>
+        <figure class="screen rv" style="--d:.15s">
+          <video id="intro" muted autoplay loop playsinline preload="metadata" poster="img/aw-intro-poster.webp" aria-label="Animación del logotipo de Another World">
+            <source src="video/aw-intro.webm" type="video/webm">
+            <source src="video/aw-intro.mp4" type="video/mp4">
+          </video>
+          <figcaption><span><i class="rec"></i>Transmisión entrante</span><b>VR Arena · Juárez</b></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="sec">
+      <p class="label rv" data-n="02">Misiones</p>
+      <h2 class="rv">Elige tu <em>mundo</em></h2>
+      <p class="lead rv">Arena sin cables, libertad total de movimiento y gráficos que te harán olvidar que estás jugando.</p>
+      <div class="games" id="games"></div>
+    </section>
+
+    <section class="sec">
+      <p class="label rv" data-n="03">Más mundos</p>
+      <h2 class="rv">Una fiesta en <em>otro mundo</em></h2>
+      <p class="lead rv">De batallas en el espacio a una mansión llena de fantasmas: cada partida es un universo distinto.</p>
+      <div class="strip">
+        <figure class="rv"><img src="img/mundo-ghost-dance.webp" alt="Ghost Tower: Dance, batalla de baile con fantasmas" width="800" height="600" loading="lazy"><figcaption>Ghost Tower: Dance</figcaption></figure>
+        <figure class="rv" style="--d:.1s"><img src="img/mundo-shmooter-space.webp" alt="Shmooter: Space Battle 2, personajes del juego en el espacio" width="800" height="600" loading="lazy"><figcaption>Shmooter: Space Battle</figcaption></figure>
+        <figure class="rv" style="--d:.2s"><img src="img/mundo-ghost-fishing.webp" alt="Ghost Tower: Fishing, pesca con fantasmas" width="800" height="600" loading="lazy"><figcaption>Ghost Tower: Fishing</figcaption></figure>
+        <figure class="rv" style="--d:.3s"><img src="img/mundo-kernel-bunker.webp" alt="Kernel: Bunker, túnel del búnker abandonado" width="800" height="600" loading="lazy"><figcaption>Kernel: Bunker</figcaption></figure>
+      </div>
+    </section>
+
+    <section class="sec">
+      <p class="label rv" data-n="04">Briefing</p>
+      <h2 class="rv">Antes de la <em>misión</em></h2>
+      <div class="info">
+        <ul class="rules panel rv">
+          <li><span class="ic"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+            <span><b>Llega 15 minutos antes</b><small>Para el briefing y ajustar los visores.</small></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M3 16h12l4-3h2v4H3z"/><path d="M6 16V9h4l3 4"/></svg></span>
+            <span><b>Calzado cerrado y ropa cómoda</b><small>Te vas a mover mucho: la arena es sin cables.</small></span></li>
+          <li><span class="ic"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 4.5-3 8-7 9-4-1-7-4.5-7-9V7z"/><path d="M9 12l2 2 4-4"/></svg></span>
+            <span><b>Confirma tu equipo</b><small>Dinos cuántas personas vienen para preparar todo.</small></span></li>
+        </ul>
+        <div class="panel place rv" style="--d:.1s">
+          <p class="label" data-n="GPS" style="margin-bottom:14px">Base de operaciones</p>
+          <p class="pl" id="place">Another World VR Arena</p>
+          <p class="ad" id="addr">Av. Ejército Nacional 5230, Local 9, Juárez, Chih.</p>
+          <a class="btn blue small" id="maps" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></svg>
+            Cómo llegar</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec cta" id="confirmar">
+      <div class="panel glow rv">
+        <p class="label" data-n="05" style="justify-content:center">Confirmación</p>
+        <h2>¿Te unes a la <em>misión</em>?</h2>
+        <div class="ctas">
+          <a class="btn primary" id="rsvp" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.1 5.1 0 0 0 1.1 2.7 11.6 11.6 0 0 0 4.4 3.9c1.6.7 2.3.7 3.1.6a2.7 2.7 0 0 0 1.8-1.3 2.2 2.2 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>
+            Confirmar por WhatsApp</a>
+          <button class="btn blue" id="ics" type="button">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4M12 13v5M9.5 15.5h5"/></svg>
+            Agregar al calendario</button>
+        </div>
+        <p class="note">Al confirmar, escribe cuántas personas vienen.</p>
+      </div>
+    </section>
+
+  </div>
+  <div class="neon red" aria-hidden="true" style="margin-top:56px"><i></i></div>
+</main>
+
+<footer>
+  <img src="img/aw-logo-sign.png" alt="Another World" width="550" height="282" loading="lazy">
+  <p>Another World VR Arena · Juárez</p>
+</footer>
+
+<script>
+(function(){
+  /* ---- 1. Config + parámetros de URL (idénticos a la plantilla 1) ---- */
+  const C = Object.assign({}, CONFIG);
+  const q = new URLSearchParams(location.search);
+  const map = {nombre:"nombre",edad:"edad",fecha:"fecha",inicio:"horaInicio",fin:"horaFin",tz:"utcOffset",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
+  for (const [p,k] of Object.entries(map)) if (q.has(p) && q.get(p).trim()) C[k] = q.get(p).trim().slice(0,200);
+  if (q.has("hora")) { const h=q.get("hora").split(/[-–a ]+/).filter(Boolean); if(h[0]) C.horaInicio=h[0]; if(h[1]) C.horaFin=h[1]; }
+  C.whatsapp = String(C.whatsapp).replace(/\D/g,"");
+  const isHM = s => /^\d{1,2}:\d{2}$/.test(s);
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(C.fecha)) C.fecha = CONFIG.fecha;
+  if (!isHM(C.horaInicio)) C.horaInicio = CONFIG.horaInicio;
+  if (!isHM(C.horaFin)) C.horaFin = CONFIG.horaFin;
+  if (!/^[+-]\d{2}:\d{2}$/.test(C.utcOffset)) C.utcOffset = "auto";
+  if (C.utcOffset === "auto") { // DST EE. UU.: 2º domingo de marzo a 1er domingo de noviembre
+    const [y,mo,da] = C.fecha.split("-").map(Number);
+    const nthSun = (m,n) => { const d=new Date(Date.UTC(y,m,1)); return 1 + (7 - d.getUTCDay())%7 + 7*(n-1); };
+    const v = mo*100+da, a = 300+nthSun(2,2), b = 1100+nthSun(10,1);
+    C.utcOffset = (v>=a && v<b) ? "-06:00" : "-07:00";
+  }
+
+  /* ---- 2. Formatos ---- */
+  const [Y,M,D] = C.fecha.split("-").map(Number);
+  const fechaTxt = new Intl.DateTimeFormat("es-MX",{weekday:"long",day:"numeric",month:"long",timeZone:"UTC"}).format(new Date(Date.UTC(Y,M-1,D,12)));
+  const hm = s => { let [h,m]=s.split(":").map(Number); const ap=h>=12?"pm":"am"; h=h%12||12; return h+":"+String(m).padStart(2,"0")+" "+ap; };
+  const ini = hm(C.horaInicio), fin = hm(C.horaFin);
+  const horaTxt = ini.slice(-2)===fin.slice(-2) ? ini.slice(0,-3)+" a "+fin : ini+" a "+fin;
+  const toDate = t => new Date(C.fecha+"T"+t.padStart(5,"0")+":00"+C.utcOffset);
+  const start = toDate(C.horaInicio), end = toDate(C.horaFin);
+  const $ = id => document.getElementById(id);
+
+  /* ---- 3. Pintar contenido (solo textContent: seguro con parámetros) ---- */
+  $("name").textContent = "¡" + C.nombre + "!";
+  $("age").textContent = C.edad;
+  const ft = fechaTxt.replace(/,/g,""), FT = ft.charAt(0).toUpperCase()+ft.slice(1);
+  $("date").textContent = FT; $("dateShort").textContent = FT;
+  $("time").textContent = horaTxt; $("timeShort").textContent = horaTxt;
+  $("place").textContent = C.lugar; $("addr").textContent = C.direccion;
+  document.title = `${C.nombre} cumple ${C.edad} · Another World VR Arena`;
+  const g = $("games");
+  C.misiones.forEach((m,i) => {
+    const el = document.createElement("article"); el.className = "game rv"; el.style.setProperty("--d",(i*.08)+"s");
+    el.innerHTML = '<div class="art"><span class="n"></span><img loading="lazy" width="800" height="500"></div><div class="body"><h3></h3><p class="g"></p><p class="x"></p></div>';
+    el.querySelector(".n").textContent = "M-" + String(i+1).padStart(2,"0");
+    const im = el.querySelector("img"); if (m.img) { im.src = m.img; im.alt = m.titulo; } else im.parentNode.removeChild(im);
+    el.querySelector("h3").textContent = m.titulo; el.querySelector(".g").textContent = m.genero || "";
+    el.querySelector(".x").textContent = m.desc || "";
+    g.appendChild(el);
+  });
+
+  /* ---- 4. Enlaces ---- */
+  $("maps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.lugar + ", " + C.direccion);
+  const msg = C.mensaje.replace("{nombre}",C.nombre).replace("{fecha}",fechaTxt).replace("{hora}",horaTxt);
+  $("rsvp").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg);
+  $("ics").addEventListener("click", () => {
+    const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,"");
+    const esc = s => String(s).replace(/\\/g,"\\\\").replace(/([,;])/g,"\\$1").replace(/\n/g,"\\n");
+    const ics = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//Another World VR Arena//Invitacion v2//ES","CALSCALE:GREGORIAN","METHOD:PUBLISH",
+      "BEGIN:VEVENT","UID:"+f(start)+"-"+Math.random().toString(36).slice(2)+"@anotherworld-invitacion",
+      "DTSTAMP:"+f(new Date()),"DTSTART:"+f(start),"DTEND:"+f(end),
+      "SUMMARY:"+esc(`Misión VR: ${C.nombre} cumple ${C.edad}`),
+      "LOCATION:"+esc(C.lugar+", "+C.direccion),
+      "DESCRIPTION:"+esc("Llega 15 minutos antes para el briefing. Calzado cerrado y ropa cómoda."),
+      "BEGIN:VALARM","TRIGGER:-PT2H","ACTION:DISPLAY","DESCRIPTION:Misión VR en 2 horas","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"].join("\r\n");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([ics],{type:"text/calendar;charset=utf-8"}));
+    a.download = "mision-another-world.ics"; document.body.appendChild(a); a.click();
+    setTimeout(()=>{URL.revokeObjectURL(a.href); a.remove();},500);
+  });
+
+  /* ---- 5. Cuenta regresiva ---- */
+  const pad = n => String(n).padStart(2,"0");
+  function tick(){
+    const ms = start - Date.now();
+    if (ms <= 0) { const c=$("count"); c.className="count done"; c.textContent = Date.now() < end ? "¡La misión está en curso!" : "Misión completada"; return false; }
+    const s = Math.floor(ms/1000);
+    $("cd-d").textContent = pad(Math.floor(s/86400)); $("cd-h").textContent = pad(Math.floor(s%86400/3600));
+    $("cd-m").textContent = pad(Math.floor(s%3600/60)); $("cd-s").textContent = pad(s%60); return true;
+  }
+  if (tick()) { const t = setInterval(()=>{ if(!tick()) clearInterval(t); },1000); }
+
+  /* ---- 6. Revelado al hacer scroll + parallax del hero ---- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const rv = document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) rv.forEach(e=>e.classList.add("in"));
+  else {
+    const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -6% 0px",threshold:.06});
+    rv.forEach(e=>io.observe(e));
+    const ph = document.querySelector(".hero .ph"); let tk=false;
+    addEventListener("scroll", () => { if (tk) return; tk=true; requestAnimationFrame(() => {
+      const y = Math.min(scrollY, innerHeight); ph.style.transform = "translate3d(0,"+(y*0.28)+"px,0)"; tk=false; }); }, {passive:true});
+  }
+  const v = $("intro");
+  if (reduce) { v.removeAttribute("autoplay"); v.pause(); }
+  else if ("IntersectionObserver" in window) { // reproducir solo cuando se ve (ahorra batería)
+    new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) v.play().catch(()=>{}); else v.pause(); }),{threshold:.25}).observe(v);
+  }
+})();
+</script>
+</body>
+</html>
