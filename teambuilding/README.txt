@@ -13,3 +13,7 @@ Edita el bloque CONFIG en index.html o usa parámetros de URL:
 Ejemplo: ?empresa=Grupo%20Alsa&formato=escape&fecha=2026-11-12&hora=09:00-13:00&wa=5216561674480
 Sin precios. Imágenes: solo arte/capturas de juegos (sin personas reales) + logotipo oficial.
 La agenda calcula horas reales desde la hora de inicio (horarios orientativos).
+  grupo        Área/equipo invitado (opcional): "Valeo · CoDir te invita a"
+  logo         Logo del cliente: clave de archivo en clientes/ (logo=valeo → clientes/valeo.svg, luego .png/.webp).
+               Se muestra en placa blanca junto al símbolo Another World (sin modificar). Si no existe, se oculta.
+               Para un cliente nuevo: sube su logo oficial a clientes/<clave>.svg|png (fondo transparente).
