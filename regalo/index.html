@@ -17,20 +17,20 @@
 <script>
 /* =====================================================================
    CONFIGURACIÓN DE LA TARJETA — edita SOLO este bloque o usa parámetros de URL:
-   ?nombre=&escuela=&motivo=&monto=&sesiones=&vigencia=AAAA-MM-DD&folio=&wa=&msg=
-   En msg puedes usar {nombre} {escuela} {motivo} {monto} {sesiones} {vigencia} {folio}.
+   ?nombre=&escuela=&motivo=&sesiones=&vigencia=AAAA-MM-DD&folio=&wa=&msg=
+   En msg puedes usar {nombre} {escuela} {motivo} {sesiones} {vigencia} {folio}.
+   (El parámetro "monto" ya no se usa: si llega, se ignora. La tarjeta no muestra montos.)
    ===================================================================== */
 const CONFIG = {
   nombre:    "Macrina Díaz",
   escuela:   "Fluency Studio",
   motivo:    "Ganadora del concurso de disfraces de Halloween",
-  monto:     "600",                       // MXN, solo número
   sesiones:  "10",
   vigencia:  "2026-11-30",                // AAAA-MM-DD (válida hasta ese día, inclusive)
   folio:     "AW-FS-HALLOWEEN-2026-001",
   whatsapp:  "526561121544",              // solo dígitos con lada país
   horarioWa: "8:00 a.m. a 10:00 p.m.",
-  mensaje:   "¡Hola Another World! Quiero agendar mis sesiones con la tarjeta de regalo a nombre de {nombre} ({motivo} · {escuela}). Tarjeta de ${monto} MXN con acceso a {sesiones} sesiones. Folio: {folio}.",
+  mensaje:   "¡Hola Another World! Quiero agendar mis sesiones con la tarjeta de regalo a nombre de {nombre} ({motivo} · {escuela}). Tarjeta con acceso a {sesiones} sesiones. Folio: {folio}.",
   lugar:     "Another World VR Arena",
   direccion: "Plaza Comercial Alameda Iglesias, locales 9 y 10 · Av. Ejército Nacional 5230-Local 9, 32390 Juárez, Chih.",
   mapa:      "https://www.google.com/maps/search/?api=1&query=Another+World+VR+Arena+Av.+Ej%C3%A9rcito+Nacional+5230+Local+9+32390+Ju%C3%A1rez+Chih"
@@ -101,7 +101,7 @@ h1 .nm{display:block;color:var(--red);font-size:1.18em;margin-top:6px;word-break
 .gc-type{font:600 9.5px/1.3 var(--b);letter-spacing:.18em;text-transform:uppercase;color:var(--neon2);text-align:right}
 .gc-type b{display:block;color:var(--pump);font-weight:600}
 .gc-amt{font:400 clamp(36px,11vw,58px)/1 var(--h);letter-spacing:-.02em;text-shadow:0 0 18px rgba(36,154,255,.55)}
-.gc-amt small{font:700 .32em/1 var(--s);letter-spacing:.06em;color:var(--mute);margin-left:6px}
+.gc-amt small{font:400 .5em/1 var(--h);letter-spacing:.02em;color:#fff;margin-left:10px}
 .gc-ses{margin-top:6px;font:700 clamp(13px,3.6vw,16px)/1.2 var(--s);color:#fff}
 .gc-ses b{color:var(--red)}
 .gc-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;font:600 clamp(8.5px,2.4vw,10.5px)/1.45 var(--b);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
@@ -207,8 +207,8 @@ footer img{width:64px;margin:0 auto 12px;opacity:.85}
         <div class="mid">
           <div class="chipico" aria-hidden="true"></div>
           <div>
-            <div class="gc-amt"><span id="c-monto">$600</span><small>MXN</small></div>
-            <div class="gc-ses">Acceso a <b id="c-ses">10 sesiones</b></div>
+            <div class="gc-amt"><span id="c-num">10</span><small id="c-unit">SESIONES</small></div>
+            <div class="gc-ses">Tarjeta de regalo · <b>Realidad virtual</b></div>
           </div>
         </div>
         <div class="gc-bot">
@@ -234,8 +234,8 @@ footer img{width:64px;margin:0 auto 12px;opacity:.85}
     <div class="panel rv">
       <div class="hd"><span>Folio<br><b id="folio" style="color:#fff;font-size:13px;letter-spacing:.06em">AW-FS-HALLOWEEN-2026-001</b></span><span class="stamp" id="stamp">Activa</span></div>
       <dl>
-        <div><dt>Tarjeta de regalo</dt><dd id="d-monto">$600 MXN</dd></div>
-        <div><dt>Incluye</dt><dd id="d-ses">Acceso a 10 sesiones</dd></div>
+        <div><dt>Tarjeta de regalo</dt><dd id="d-ses">Acceso a 10 sesiones</dd></div>
+        <div><dt>Válida en</dt><dd>Another World VR Arena</dd></div>
         <div><dt>A nombre de</dt><dd id="d-nombre">Macrina Díaz</dd></div>
         <div><dt>Otorgada por</dt><dd><span id="d-escuela">Fluency Studio</span><small id="d-motivo">Ganadora del concurso de disfraces de Halloween</small></dd></div>
         <div><dt>Vigencia</dt><dd id="d-vig">Válida hasta el 30 de noviembre de 2026</dd></div>
@@ -308,12 +308,10 @@ footer img{width:64px;margin:0 auto 12px;opacity:.85}
 <script>
 (function(){
   const q = new URLSearchParams(location.search), C = Object.assign({}, CONFIG);
-  const map = {nombre:"nombre",escuela:"escuela",motivo:"motivo",monto:"monto",sesiones:"sesiones",vigencia:"vigencia",folio:"folio",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
+  const map = {nombre:"nombre",escuela:"escuela",motivo:"motivo",sesiones:"sesiones",vigencia:"vigencia",folio:"folio",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
   for (const k in map){ const v=q.get(k); if (v && v.trim()) C[map[k]] = v.trim().slice(0,240); }
   C.whatsapp = String(C.whatsapp).replace(/\D/g,"") || CONFIG.whatsapp;
   const $ = id => document.getElementById(id), set=(id,t)=>{const e=$(id); if(e) e.textContent=t;};
-  const montoN = String(C.monto).replace(/[^\d.,]/g,"") || CONFIG.monto;
-  const montoTxt = "$" + montoN;
   const sesTxt = C.sesiones + (String(C.sesiones)==="1" ? " sesión" : " sesiones");
   const MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
   let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(C.vigencia); if(!m){ C.vigencia=CONFIG.vigencia; m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(C.vigencia); }
@@ -322,8 +320,7 @@ footer img{width:64px;margin:0 auto 12px;opacity:.85}
   set("nombre",C.nombre); set("c-nombre",C.nombre); set("d-nombre",C.nombre);
   set("motivo",C.motivo); set("d-motivo",C.motivo);
   set("escuela",C.escuela); set("d-escuela",C.escuela);
-  set("c-monto",montoTxt); set("d-monto",montoTxt+" MXN");
-  set("c-ses",sesTxt); set("d-ses","Acceso a "+sesTxt);
+  set("c-num",C.sesiones); set("c-unit",String(C.sesiones)==="1"?"SESIÓN":"SESIONES"); set("d-ses","Acceso a "+sesTxt);
   set("c-vig",vigCorta); set("d-vig","Válida hasta el "+vigLarga);
   set("folio",C.folio);
   set("fine","Válida hasta el "+vigLarga+". Presenta tu folio ("+C.folio+") al canjear.");
@@ -331,7 +328,7 @@ footer img{width:64px;margin:0 auto 12px;opacity:.85}
   set("lugar",C.lugar);
   if (q.get("dir")) set("dir",C.direccion);
   document.title = "Tarjeta de regalo para "+C.nombre+" · Another World VR Arena";
-  const fill = s => s.replace(/\{(\w+)\}/g,(a,k)=>({nombre:C.nombre,escuela:C.escuela,motivo:C.motivo,monto:montoN,sesiones:C.sesiones,vigencia:vigLarga,folio:C.folio})[k] ?? a);
+  const fill = s => s.replace(/\{(\w+)\}/g,(a,k)=>({nombre:C.nombre,escuela:C.escuela,motivo:C.motivo,sesiones:C.sesiones,vigencia:vigLarga,folio:C.folio})[k] ?? a);
   const wa = "https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(fill(C.mensaje));
   ["wa1","wa2","wa3"].forEach(id=>$(id).href=wa);
   $("map").href = C.mapa;
