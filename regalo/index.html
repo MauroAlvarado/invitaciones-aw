@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es-MX">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0C0C16">
+<title>Tarjeta de regalo · Another World VR Arena</title>
+<meta name="description" content="Tarjeta de regalo digital · Another World VR Arena, Juárez">
+<meta property="og:title" content="¡Tienes una tarjeta de regalo! · Another World VR Arena">
+<meta property="og:description" content="Tarjeta de regalo digital para jugar en Another World VR Arena, Juárez.">
+<meta property="og:image" content="https://mauroalvarado.github.io/invitaciones-aw/regalo/img/og-regalo.jpg">
+<meta property="og:type" content="website">
+<!-- Imágenes: solo arte/capturas de juegos y logotipo oficial. Sin fotografías ni video de personas reales. -->
+<link rel="icon" type="image/png" href="img/aw-logo-sign.png">
+<link rel="preload" href="fonts/igra-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/source-code-pro-400.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+/* =====================================================================
+   CONFIGURACIÓN DE LA TARJETA — edita SOLO este bloque o usa parámetros de URL:
+   ?nombre=&escuela=&motivo=&monto=&sesiones=&vigencia=AAAA-MM-DD&folio=&wa=&msg=
+   En msg puedes usar {nombre} {escuela} {motivo} {monto} {sesiones} {vigencia} {folio}.
+   ===================================================================== */
+const CONFIG = {
+  nombre:    "Macrina Díaz",
+  escuela:   "Fluency Studio",
+  motivo:    "Ganadora del concurso de disfraces de Halloween",
+  monto:     "600",                       // MXN, solo número
+  sesiones:  "10",
+  vigencia:  "2026-11-30",                // AAAA-MM-DD (válida hasta ese día, inclusive)
+  folio:     "AW-FS-HALLOWEEN-2026-001",
+  whatsapp:  "526561121544",              // solo dígitos con lada país
+  horarioWa: "8:00 a.m. a 10:00 p.m.",
+  mensaje:   "¡Hola Another World! Quiero agendar mis sesiones con la tarjeta de regalo a nombre de {nombre} ({motivo} · {escuela}). Tarjeta de ${monto} MXN con acceso a {sesiones} sesiones. Folio: {folio}.",
+  lugar:     "Another World VR Arena",
+  direccion: "Plaza Comercial Alameda Iglesias, locales 9 y 10 · Av. Ejército Nacional 5230-Local 9, 32390 Juárez, Chih.",
+  mapa:      "https://www.google.com/maps/search/?api=1&query=Another+World+VR+Arena+Av.+Ej%C3%A9rcito+Nacional+5230+Local+9+32390+Ju%C3%A1rez+Chih"
+};
+</script>
+<style>
+@font-face{font-family:"Igra Sans";src:url(fonts/igra-sans.woff2) format("woff2");font-display:swap}
+@font-face{font-family:"Jura";src:url(fonts/jura-bold.woff2) format("woff2");font-weight:700;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-400.woff2) format("woff2");font-weight:400;font-display:swap}
+@font-face{font-family:"Source Code Pro";src:url(fonts/source-code-pro-600.woff2) format("woff2");font-weight:600;font-display:swap}
+:root{
+  --black:#0C0C16;--panel:#141422;--line:rgba(255,255,255,.09);
+  --red:#EA0046;--red2:#F80C4F;--blue:#0062BA;--neon:#246FFF;--neon2:#249AFF;--white:#fff;--mute:#A9ADBD;--dim:#6E7286;--pump:#FF7A1A;
+  --h:"Igra Sans",system-ui,sans-serif;--s:"Jura",system-ui,sans-serif;--b:"Source Code Pro",ui-monospace,monospace;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--white);font:400 14px/1.7 var(--b);letter-spacing:-.03em;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit}
+.wrap{width:min(1120px,100% - 40px);margin-inline:auto}
+/* top */
+.top{position:absolute;top:0;left:0;right:0;z-index:5;padding:18px 0}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.top .logo{width:150px;height:auto}
+.top .tag{font:600 10.5px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--mute);border:1px solid rgba(255,255,255,.18);padding:8px 10px;background:rgba(12,12,22,.5)}
+/* hero */
+.hero{position:relative;min-height:100svh;display:flex;align-items:center;padding:96px 0 56px;overflow:hidden;isolation:isolate}
+.hero .bg{position:absolute;inset:0;z-index:-3;background:url(img/hero-bg.webp) center/cover no-repeat;opacity:.38;transform:scale(1.08);animation:drift 22s ease-in-out infinite alternate}
+.hero::before{content:"";position:absolute;inset:0;z-index:-2;background:
+ radial-gradient(60% 50% at 80% 30%,rgba(36,111,255,.35),transparent 70%),
+ radial-gradient(50% 40% at 10% 90%,rgba(234,0,70,.28),transparent 70%),
+ linear-gradient(180deg,rgba(12,12,22,.55) 0%,rgba(12,12,22,.7) 55%,var(--black) 100%)}
+.hero::after{content:"";position:absolute;inset:0;z-index:-1;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 3px);pointer-events:none}
+@keyframes drift{to{transform:scale(1.16) translate(-2%,-1%)}}
+.hero .grid{display:grid;gap:28px;align-items:center}
+.hctas .ctas{margin-top:0}
+.kick{display:inline-flex;align-items:center;gap:10px;font:600 11px/1 var(--b);letter-spacing:.16em;text-transform:uppercase;color:#fff;background:var(--red);padding:8px 14px 8px 10px;clip-path:polygon(0 0,100% 0,calc(100% - 8px) 100%,0 100%)}
+.kick svg{width:16px;height:16px}
+.pre{margin-top:18px;font:700 18px/1.25 var(--s);color:var(--mute);letter-spacing:.02em}
+h1{margin-top:6px;font:400 clamp(30px,8.4vw,68px)/1.06 var(--h);letter-spacing:-.02em;text-wrap:balance}
+h1 .nm{display:block;color:var(--red);font-size:1.18em;margin-top:6px;word-break:break-word;text-shadow:0 0 28px rgba(234,0,70,.4)}
+.why{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid rgba(255,255,255,.18);background:rgba(12,12,22,.6);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);font:600 12.5px/1.25 var(--b);letter-spacing:.01em}
+.chip em{font-style:normal;color:var(--pump);font-size:10px;letter-spacing:.14em;text-transform:uppercase}
+.chip.b em{color:var(--neon2)}
+.ctas{margin-top:24px;display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:52px;padding:0 22px;font:600 13px/1 var(--b);letter-spacing:.08em;text-transform:uppercase;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:transform .2s,box-shadow .25s,background .25s;clip-path:polygon(10px 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%,0 10px);color:#fff;background:none}
+.btn svg{width:20px;height:20px;flex:none}
+.btn.red{background:var(--red);box-shadow:0 8px 30px rgba(234,0,70,.35)}
+.btn.red:hover{background:var(--red2);transform:translateY(-2px)}
+.btn.ghost{border-color:rgba(255,255,255,.3);background:rgba(12,12,22,.5)}
+.btn.ghost:hover{border-color:var(--neon2);box-shadow:0 0 24px rgba(36,154,255,.3)}
+/* gift card */
+.stage{perspective:1200px;display:grid;place-items:center}
+.gcard{position:relative;width:min(100%,460px);aspect-ratio:1.586;border-radius:22px;padding:22px 24px;overflow:hidden;
+ background:linear-gradient(135deg,#101a3a 0%,#0C0C16 45%,#1a0c1e 100%);
+ border:1px solid rgba(36,154,255,.55);
+ box-shadow:0 0 0 1px rgba(36,111,255,.25),0 0 40px rgba(36,111,255,.35),0 30px 60px rgba(0,0,0,.6);
+ transform-style:preserve-3d;transform:rotateX(var(--rx,6deg)) rotateY(var(--ry,-10deg));transition:transform .25s ease-out;animation:float 6s ease-in-out infinite;display:flex;flex-direction:column;justify-content:space-between}
+@keyframes float{50%{translate:0 -10px}}
+.gcard::before{content:"";position:absolute;inset:0;background:url(img/m-ghost-mansion.webp) center/cover;opacity:.13;mix-blend-mode:screen;pointer-events:none}
+.gcard::after{content:"";position:absolute;inset:-50%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.22) 48%,rgba(36,154,255,.18) 52%,transparent 60%);transform:translateX(-60%);animation:shine 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes shine{0%,30%{transform:translateX(-60%)}70%,100%{transform:translateX(60%)}}
+.gcard>*{position:relative;z-index:1}
+.gc-top{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.gc-top img{width:110px}
+.gc-type{font:600 9.5px/1.3 var(--b);letter-spacing:.18em;text-transform:uppercase;color:var(--neon2);text-align:right}
+.gc-type b{display:block;color:var(--pump);font-weight:600}
+.gc-amt{font:400 clamp(36px,11vw,58px)/1 var(--h);letter-spacing:-.02em;text-shadow:0 0 18px rgba(36,154,255,.55)}
+.gc-amt small{font:700 .32em/1 var(--s);letter-spacing:.06em;color:var(--mute);margin-left:6px}
+.gc-ses{margin-top:6px;font:700 clamp(13px,3.6vw,16px)/1.2 var(--s);color:#fff}
+.gc-ses b{color:var(--red)}
+.gc-bot{display:flex;justify-content:space-between;align-items:flex-end;gap:10px;font:600 clamp(8.5px,2.4vw,10.5px)/1.45 var(--b);letter-spacing:.08em;text-transform:uppercase;color:var(--mute)}
+.gc-bot strong{display:block;color:#fff;font-weight:600;letter-spacing:.04em;font-size:1.12em;word-break:break-all}
+.gc-bot .r{text-align:right}
+.chipico{width:42px;height:32px;border-radius:6px;background:linear-gradient(135deg,#f6d27a,#b98b2e);opacity:.85;position:relative}
+.chipico::after{content:"";position:absolute;inset:7px 9px;border:1px solid rgba(0,0,0,.35);border-radius:3px}
+.mid{display:flex;align-items:center;gap:14px}
+/* floating halloween */
+.spook{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.spook i{position:absolute;display:block;opacity:.75}
+.spook .gh{width:46px;animation:ghost 9s ease-in-out infinite}
+.spook .bat{width:38px;animation:bat 12s linear infinite}
+@keyframes ghost{0%,100%{transform:translate(0,0) rotate(-4deg)}50%{transform:translate(18px,-26px) rotate(5deg)}}
+@keyframes bat{0%{transform:translate(-10vw,0) scale(1)}50%{transform:translate(55vw,-40px) scale(.8)}100%{transform:translate(120vw,10px) scale(1)}}
+/* sections */
+section.s{padding:72px 0;border-top:1px solid var(--line)}
+.lbl{display:flex;align-items:center;gap:12px;font:600 11px/1 var(--b);letter-spacing:.2em;text-transform:uppercase;color:var(--red)}
+.lbl::after{content:"";height:1px;width:56px;background:var(--red)}
+h2{margin-top:14px;font:400 clamp(26px,6.6vw,48px)/1.12 var(--h);letter-spacing:-.02em;text-wrap:balance}
+.lead{margin-top:12px;color:var(--mute);max-width:58ch;font-size:14.5px}
+.panel{margin-top:28px;background:var(--panel);border:1px solid var(--line);padding:22px;position:relative}
+.panel .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;padding-bottom:14px;border-bottom:1px dashed rgba(255,255,255,.14);font:600 10.5px/1.5 var(--b);letter-spacing:.14em;text-transform:uppercase;color:var(--dim)}
+.stamp{flex:none;border:2px solid var(--red);color:var(--red);padding:5px 9px;font:400 12px/1 var(--h);letter-spacing:.06em;transform:rotate(-4deg)}
+.stamp.off{border-color:var(--dim);color:var(--dim)}
+dl{display:grid;gap:16px;margin-top:16px}
+dt{font:600 10.5px/1.6 var(--b);letter-spacing:.16em;text-transform:uppercase;color:var(--dim)}
+dd{font:700 17px/1.4 var(--s);color:#fff;letter-spacing:.01em;word-break:break-word}
+dd small{display:block;margin-top:2px;font:400 13px/1.55 var(--b);color:var(--mute);letter-spacing:-.02em}
+.count{margin-top:22px;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:420px}
+.count div{background:rgba(36,111,255,.08);border:1px solid rgba(36,154,255,.3);padding:12px 8px;text-align:center}
+.count b{display:block;font:400 clamp(28px,8vw,44px)/1 var(--h);font-variant-numeric:tabular-nums}
+.count span{display:block;margin-top:6px;font:600 9.5px/1 var(--b);letter-spacing:.18em;color:var(--dim);text-transform:uppercase}
+.count.done{display:block;padding:18px;font:400 20px/1.2 var(--h);color:var(--dim);border:1px solid var(--line)}
+.steps{list-style:none;counter-reset:p;display:grid;gap:14px;margin-top:28px}
+.steps li{display:grid;grid-template-columns:44px 1fr;gap:12px;background:var(--panel);border:1px solid var(--line);padding:18px}
+.steps li::before{counter-increment:p;content:"0" counter(p);font:400 28px/1 var(--h);color:var(--red);padding-top:2px}
+.steps h3{font:700 17px/1.3 var(--s)}
+.steps p{margin-top:4px;color:var(--mute);font-size:13.5px}
+.steps a{color:var(--neon2)}
+.worlds{margin-top:28px;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.worlds figure{position:relative;overflow:hidden;aspect-ratio:16/11;border:1px solid var(--line)}
+.worlds img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
+.worlds figure:hover img{transform:scale(1.06)}
+.worlds figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 10px 8px;background:linear-gradient(transparent,rgba(12,12,22,.92));font:400 15px/1.1 var(--h)}
+.where{display:grid;gap:22px;margin-top:28px}
+.addr{font:700 17px/1.5 var(--s)}
+.addr small{display:block;font:400 13px/1.6 var(--b);color:var(--mute);margin-top:4px}
+.fine{margin-top:18px;font-size:12px;color:var(--dim);max-width:70ch}
+.final{text-align:center;background:radial-gradient(60% 80% at 50% 0%,rgba(36,111,255,.18),transparent 70%)}
+.final .ctas{justify-content:center}
+footer{border-top:1px solid var(--line);padding:34px 0 44px;text-align:center;color:var(--dim);font-size:12px;letter-spacing:.04em}
+footer img{width:64px;margin:0 auto 12px;opacity:.85}
+.toast{position:fixed;left:50%;bottom:22px;transform:translate(-50%,120px);background:var(--panel);border:1px solid var(--neon2);padding:10px 16px;font:600 12px/1.3 var(--b);z-index:20;transition:transform .3s,opacity .3s;opacity:0;visibility:hidden}
+.toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
+/* reveal */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s ease;transition-delay:var(--d,0s)}
+.rv.in{opacity:1;transform:none}
+@media (min-width:720px){
+  .top .logo{width:180px}
+  dl{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .worlds{grid-template-columns:repeat(4,1fr)}
+  .where{grid-template-columns:1.3fr 1fr;align-items:center}
+}
+@media (min-width:980px){
+  .hero .grid{grid-template-columns:1.05fr 1fr;grid-template-areas:"txt stage" "ctas stage";row-gap:24px}
+  .txt{grid-area:txt;align-self:end}.stage{grid-area:stage}.hctas{grid-area:ctas;align-self:start}
+  .pre{font-size:22px}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <img class="logo" src="img/aw-logo-horizontal-white.png" alt="Another World" width="1200" height="178">
+  <span class="tag">Tarjeta de regalo</span>
+</div></header>
+
+<main>
+<section class="hero">
+  <div class="bg" aria-hidden="true"></div>
+  <div class="spook" aria-hidden="true" id="spook"></div>
+  <div class="wrap grid">
+    <div class="txt rv in">
+      <span class="kick"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8c-2-4-6-4-6-1.5S9 8 12 8c3 0 6-1 6-1.5S14 4 12 8z"/></svg>¡Tienes un premio!</span>
+      <p class="pre">¡Felicidades!</p>
+      <h1><span class="nm" id="nombre">Macrina Díaz</span></h1>
+      <div class="why">
+        <span class="chip"><em>Motivo</em><span id="motivo">Ganadora del concurso de disfraces de Halloween</span></span>
+        <span class="chip b"><em>De parte de</em><span id="escuela">Fluency Studio</span></span>
+      </div>
+    </div>
+    <div class="stage rv in">
+      <div class="gcard" id="gcard" role="img" aria-label="Tarjeta de regalo Another World">
+        <div class="gc-top">
+          <img src="img/aw-logo-horizontal-white.png" alt="" width="1200" height="178">
+          <div class="gc-type">Gift card · VR Arena<b>Edición Halloween</b></div>
+        </div>
+        <div class="mid">
+          <div class="chipico" aria-hidden="true"></div>
+          <div>
+            <div class="gc-amt"><span id="c-monto">$600</span><small>MXN</small></div>
+            <div class="gc-ses">Acceso a <b id="c-ses">10 sesiones</b></div>
+          </div>
+        </div>
+        <div class="gc-bot">
+          <div>A nombre de<strong id="c-nombre">Macrina Díaz</strong></div>
+          <div class="r">Válida hasta<strong id="c-vig">30/11/2026</strong></div>
+        </div>
+      </div>
+    </div>
+    <div class="hctas rv in">
+    <div class="ctas">
+      <a class="btn red" id="wa1" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.8 11.9 11.9 0 0 0 4.6 4c1.7.7 2.4.8 3.2.7.5-.1 1.5-.6 1.8-1.2s.2-1.1.1-1.2l-.5-.2z"/></svg>Agendar por WhatsApp</a>
+      <button class="btn ghost" id="share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>Guardar / compartir</button>
+    </div>
+    </div>
+  </div>
+</section>
+
+<section class="s" id="premio">
+  <div class="wrap">
+    <p class="lbl rv">Tu premio</p>
+    <h2 class="rv">Una tarjeta de regalo para jugar en realidad virtual</h2>
+    <p class="lead rv">Muestra esta tarjeta en la arena para canjearla. Puedes presentar este link o una captura de pantalla.</p>
+    <div class="panel rv">
+      <div class="hd"><span>Folio<br><b id="folio" style="color:#fff;font-size:13px;letter-spacing:.06em">AW-FS-HALLOWEEN-2026-001</b></span><span class="stamp" id="stamp">Activa</span></div>
+      <dl>
+        <div><dt>Tarjeta de regalo</dt><dd id="d-monto">$600 MXN</dd></div>
+        <div><dt>Incluye</dt><dd id="d-ses">Acceso a 10 sesiones</dd></div>
+        <div><dt>A nombre de</dt><dd id="d-nombre">Macrina Díaz</dd></div>
+        <div><dt>Otorgada por</dt><dd><span id="d-escuela">Fluency Studio</span><small id="d-motivo">Ganadora del concurso de disfraces de Halloween</small></dd></div>
+        <div><dt>Vigencia</dt><dd id="d-vig">Válida hasta el 30 de noviembre de 2026</dd></div>
+        <div><dt>Agenda</dt><dd>WhatsApp 656 112 1544<small id="d-hor">De 8:00 a.m. a 10:00 p.m.</small></dd></div>
+      </dl>
+    </div>
+    <div class="count rv" id="count" aria-live="polite">
+      <div><b id="cd-d">00</b><span>Días</span></div>
+      <div><b id="cd-h">00</b><span>Horas</span></div>
+      <div><b id="cd-m">00</b><span>Min</span></div>
+    </div>
+    <p class="fine rv" id="count-note">Tiempo restante para usar tu tarjeta.</p>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap">
+    <p class="lbl rv">Cómo canjearla</p>
+    <h2 class="rv">Tres pasos y entras a otro mundo</h2>
+    <ol class="steps">
+      <li class="rv"><div><h3>Agenda por WhatsApp</h3><p>Escríbenos al <a id="wa2" href="#" target="_blank" rel="noopener">656 112 1544</a> de <span class="hor">8:00 a.m. a 10:00 p.m.</span> y elige tu día y horario.</p></div></li>
+      <li class="rv" style="--d:.08s"><div><h3>Presenta tu tarjeta</h3><p>En la arena muestra este link o una captura de pantalla con tu folio.</p></div></li>
+      <li class="rv" style="--d:.16s"><div><h3>¡A jugar!</h3><p>Ponte el visor, escucha al game master y disfruta tus sesiones.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap">
+    <p class="lbl rv">Algunos mundos</p>
+    <h2 class="rv">Fantasmas, fuertes, colonias espaciales…</h2>
+    <div class="worlds">
+      <figure class="rv"><img src="img/m-ghost-mansion.webp" alt="Ghost Mansion, arte del juego" loading="lazy" width="800" height="560"><figcaption>Ghost Mansion</figcaption></figure>
+      <figure class="rv" style="--d:.06s"><img src="img/m-shmooter-forts.webp" alt="Shmooter: Forts, arte del juego" loading="lazy" width="800" height="560"><figcaption>Shmooter: Forts</figcaption></figure>
+      <figure class="rv" style="--d:.12s"><img src="img/m-colony.webp" alt="Colony: Code Red, arte del juego" loading="lazy" width="800" height="500"><figcaption>Colony: Code Red</figcaption></figure>
+      <figure class="rv" style="--d:.18s"><img src="img/m-kernel-raven.webp" alt="Kernel: Raven, arte del juego" loading="lazy" width="800" height="500"><figcaption>Kernel: Raven</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="s">
+  <div class="wrap where">
+    <div>
+      <p class="lbl rv">Dónde canjearla</p>
+      <h2 class="rv" id="lugar">Another World VR Arena</h2>
+      <p class="addr rv" id="dir">Plaza Comercial Alameda Iglesias, locales 9 y 10<small>Av. Ejército Nacional 5230-Local 9, 32390 Juárez, Chih.</small></p>
+    </div>
+    <div class="rv"><a class="btn ghost" id="map" href="#" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg>Abrir en el mapa</a></div>
+  </div>
+</section>
+
+<section class="s final">
+  <div class="wrap">
+    <h2 class="rv">¿Todo listo para jugar?</h2>
+    <p class="lead rv" style="margin-inline:auto">Agenda tu visita y presenta tu tarjeta en la arena.</p>
+    <div class="ctas rv">
+      <a class="btn red" id="wa3" href="#" target="_blank" rel="noopener">Agendar por WhatsApp</a>
+    </div>
+    <p class="fine rv" style="margin-inline:auto" id="fine">Válida hasta el 30 de noviembre de 2026. Presenta tu folio al canjear.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <img src="img/aw-logo-sign.png" alt="Another World" width="550" height="282" loading="lazy">
+  Another World VR Arena · Juárez, Chih.
+</footer>
+<div class="toast" id="toast">Link copiado</div>
+
+<script>
+(function(){
+  const q = new URLSearchParams(location.search), C = Object.assign({}, CONFIG);
+  const map = {nombre:"nombre",escuela:"escuela",motivo:"motivo",monto:"monto",sesiones:"sesiones",vigencia:"vigencia",folio:"folio",wa:"whatsapp",msg:"mensaje",lugar:"lugar",dir:"direccion"};
+  for (const k in map){ const v=q.get(k); if (v && v.trim()) C[map[k]] = v.trim().slice(0,240); }
+  C.whatsapp = String(C.whatsapp).replace(/\D/g,"") || CONFIG.whatsapp;
+  const $ = id => document.getElementById(id), set=(id,t)=>{const e=$(id); if(e) e.textContent=t;};
+  const montoN = String(C.monto).replace(/[^\d.,]/g,"") || CONFIG.monto;
+  const montoTxt = "$" + montoN;
+  const sesTxt = C.sesiones + (String(C.sesiones)==="1" ? " sesión" : " sesiones");
+  const MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  let m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(C.vigencia); if(!m){ C.vigencia=CONFIG.vigencia; m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(C.vigencia); }
+  const [Y,M,D]=[+m[1],+m[2],+m[3]];
+  const vigLarga = D+" de "+MES[M-1]+" de "+Y, vigCorta = String(D).padStart(2,"0")+"/"+String(M).padStart(2,"0")+"/"+Y;
+  set("nombre",C.nombre); set("c-nombre",C.nombre); set("d-nombre",C.nombre);
+  set("motivo",C.motivo); set("d-motivo",C.motivo);
+  set("escuela",C.escuela); set("d-escuela",C.escuela);
+  set("c-monto",montoTxt); set("d-monto",montoTxt+" MXN");
+  set("c-ses",sesTxt); set("d-ses","Acceso a "+sesTxt);
+  set("c-vig",vigCorta); set("d-vig","Válida hasta el "+vigLarga);
+  set("folio",C.folio);
+  set("fine","Válida hasta el "+vigLarga+". Presenta tu folio ("+C.folio+") al canjear.");
+  set("d-hor","De "+C.horarioWa); document.querySelectorAll(".hor").forEach(e=>e.textContent=C.horarioWa);
+  set("lugar",C.lugar);
+  if (q.get("dir")) set("dir",C.direccion);
+  document.title = "Tarjeta de regalo para "+C.nombre+" · Another World VR Arena";
+  const fill = s => s.replace(/\{(\w+)\}/g,(a,k)=>({nombre:C.nombre,escuela:C.escuela,motivo:C.motivo,monto:montoN,sesiones:C.sesiones,vigencia:vigLarga,folio:C.folio})[k] ?? a);
+  const wa = "https://wa.me/"+C.whatsapp+"?text="+encodeURIComponent(fill(C.mensaje));
+  ["wa1","wa2","wa3"].forEach(id=>$(id).href=wa);
+  $("map").href = C.mapa;
+  // vigencia: hasta 23:59:59 de Cd. Juárez (UTC-7 en noviembre; -6 con horario de verano)
+  function off(y,mo,d){ const mar=new Date(Date.UTC(y,2,1)), nov=new Date(Date.UTC(y,10,1));
+    const s=new Date(Date.UTC(y,2,1+((7-mar.getUTCDay())%7)+7)), e=new Date(Date.UTC(y,10,1+((7-nov.getUTCDay())%7)));
+    const t=Date.UTC(y,mo-1,d); return (t>=s && t<e) ? 6 : 7; }
+  const end = Date.UTC(Y,M-1,D,23,59,59) + off(Y,M,D)*3600e3;
+  const pad=n=>String(n).padStart(2,"0");
+  function tick(){ let s=Math.floor((end-Date.now())/1000);
+    if (s<=0){ const c=$("count"); c.className="count done"; c.textContent="Esta tarjeta venció el "+vigLarga+"."; set("count-note",""); const st=$("stamp"); st.textContent="Vencida"; st.classList.add("off"); return false; }
+    set("cd-d",pad(Math.floor(s/86400))); set("cd-h",pad(Math.floor(s%86400/3600))); set("cd-m",pad(Math.floor(s%3600/60))); return true; }
+  if (tick()) { const iv=setInterval(()=>{ if(!tick()) clearInterval(iv); },30000); }
+  // compartir
+  const toast=t=>{const e=$("toast"); e.textContent=t; e.classList.add("on"); setTimeout(()=>e.classList.remove("on"),2600);};
+  $("share").addEventListener("click", async ()=>{
+    const data={title:document.title,text:"Tarjeta de regalo Another World · "+C.nombre,url:location.href};
+    try{ if(navigator.share){ await navigator.share(data); return; } await navigator.clipboard.writeText(location.href); toast("Link copiado. También puedes tomar captura de pantalla."); }
+    catch(e){ toast("Toma una captura de pantalla para guardarla."); }
+  });
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // fantasmas y murciélagos (decoración SVG, sin fotos)
+  const GH='<svg viewBox="0 0 64 72"><path d="M32 2C16 2 6 14 6 30v38l9-7 8 7 9-7 9 7 8-7 9 7V30C58 14 48 2 32 2z" fill="rgba(220,235,255,.85)"/><circle cx="23" cy="30" r="5" fill="#0C0C16"/><circle cx="41" cy="30" r="5" fill="#0C0C16"/><ellipse cx="32" cy="44" rx="6" ry="4" fill="#0C0C16"/></svg>';
+  const BAT='<svg viewBox="0 0 64 30"><path d="M32 8c-2-4-4-6-4-6s0 4-1 6c-6-1-10-6-10-6S16 8 6 8c4 3 6 8 6 8s5-3 9-1c3 1 5 6 11 10 6-4 8-9 11-10 4-2 9 1 9 1s2-5 6-8C48 8 47 2 47 2s-4 5-10 6c-1-2-1-6-1-6s-2 2-4 6z" fill="#EA0046"/></svg>';
+  const sp=$("spook"); if (!reduce){
+    [[8,18,0],[86,12,2.5],[72,70,1.2],[4,72,4]].forEach(([x,y,d],i)=>{const e=document.createElement("i"); e.className="gh"; e.innerHTML=GH; e.style.cssText="left:"+x+"%;top:"+y+"%;animation-delay:-"+d+"s;width:"+(34+i*6)+"px;opacity:"+(.35+i*.08); sp.appendChild(e);});
+    [[22,0],[40,5],[12,8.5]].forEach(([y,d])=>{const e=document.createElement("i"); e.className="bat"; e.innerHTML=BAT; e.style.cssText="left:0;top:"+y+"%;animation-delay:-"+d+"s"; sp.appendChild(e);});
+    // inclinación 3D de la tarjeta
+    const g=$("gcard"), st=g.parentElement;
+    st.addEventListener("pointermove",e=>{const r=g.getBoundingClientRect(); const x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5; g.style.setProperty("--ry",(x*18)+"deg"); g.style.setProperty("--rx",(-y*14)+"deg");});
+    st.addEventListener("pointerleave",()=>{g.style.removeProperty("--ry"); g.style.removeProperty("--rx");});
+  }
+  const rv=document.querySelectorAll(".rv");
+  if (reduce || !("IntersectionObserver" in window)) rv.forEach(e=>e.classList.add("in"));
+  else { const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("in"); io.unobserve(e.target);} }),{rootMargin:"0px 0px -6% 0px",threshold:.06}); rv.forEach(e=>io.observe(e)); }
+})();
+</script>
+</body>
+</html>
