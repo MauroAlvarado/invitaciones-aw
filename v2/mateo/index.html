@@ -250,7 +250,7 @@ footer p{margin-top:16px;font-size:11px;letter-spacing:.18em;text-transform:uppe
       <div><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M3 10h18M8 3v4M16 3v4"/></svg><span id="dateShort">Sábado 28 de noviembre</span></div>
       <div><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span id="timeShort">4:00 a 5:00 pm</span></div>
     </div>
-    <a class="btn primary go rv" style="--d:.7s" href="#confirmar">Confirmar asistencia</a>
+    <a class="btn primary go rv" style="--d:.7s" href="/invitaciones-aw/v2/mateo/#confirmar">Confirmar asistencia</a>
   </div>
 </section>
 
@@ -405,6 +405,13 @@ footer p{margin-top:16px;font-size:11px;letter-spacing:.18em;text-transform:uppe
   });
 
   /* ---- 4. Enlaces ---- */
+  /* <base href="../"> hace que href="#confirmar" apunte a /v2/#confirmar (la plantilla con Gael). Anclas se quedan en esta página. */
+  document.querySelectorAll("a[href]").forEach(a => {
+    const raw = a.getAttribute("href") || "";
+    if (raw.startsWith("#") || /\/v2\/?#/.test(raw) && !/\/v2\/mateo\//.test(raw)) {
+      a.setAttribute("href", location.pathname.replace(/\/?$/, "/") + (raw.includes("#") ? raw.slice(raw.indexOf("#")) : ""));
+    }
+  });
   $("maps").href = "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(C.lugar + ", " + C.direccion);
   const msg = C.mensaje.replace("{nombre}",C.nombre).replace("{fecha}",fechaTxt).replace("{hora}",horaTxt);
   $("rsvp").href = "https://wa.me/" + C.whatsapp + "?text=" + encodeURIComponent(msg);
